@@ -32,7 +32,7 @@ public class Player
 			positionDeterminator();
 			this.ageGroup = Constants.youth;
 		}
-		else if(age > 20 && age <=30)
+		else if(age > 20 && age <= 30)
 		{			
 			this.goalieSkill = random.nextInt(Constants.proSkillMax - Constants.proSkillMin) + Constants.proSkillMin;
 			this.attackSkill = random.nextInt(Constants.proSkillMax - Constants.proSkillMin) + Constants.proSkillMin;
