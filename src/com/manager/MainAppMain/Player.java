@@ -16,7 +16,7 @@ public class Player
 	public int overall;
 	public int age;
 	public int growth;
-	public int injuryRisk; 
+	public int injuryRisk ; 
 	public String ageGroup;
 	Player()
 	{
