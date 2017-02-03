@@ -12,19 +12,20 @@ public class Market
 	ArrayList<Player> marketDefender = new ArrayList<Player>();
 	ArrayList<Player> marketMidfielder = new ArrayList<Player>();
 	ArrayList<Player> marketAttacker = new ArrayList<Player>();
-	ArrayList<Player> marketYouth= new ArrayList<Player>();
+	ArrayList<Player> marketYouth = new ArrayList<Player>();
+	ArrayList<Player> marketTotal = new ArrayList<Player>();
 	public int totalMarketSize = (marketGoalie.size() + marketMidfielder.size() + marketDefender.size() + marketAttacker.size());
 	public void fillMarket(ArrayList<Player> arrayToFill, String position, int limit)
 	{
 		Player newPlayer = new Player();
 		if(limit > 0)
 		{
-			if(newPlayer.ageGroup.equals(Constants.youth) && marketYouth.size() < Constants.marketYouthExtra)
+			if(newPlayer.getAgeGroup().equals(Constants.youth) && marketYouth.size() < Constants.marketYouthExtra)
 			{
 				marketYouth.add(newPlayer);
 				fillMarket(arrayToFill, position, limit);
 			}
-			else if(newPlayer.naturalPosition.equals(position) && !newPlayer.ageGroup.equals(Constants.youth))
+			else if(newPlayer.getNaturalPosition().equals(position) && !newPlayer.getAgeGroup().equals(Constants.youth))
 			{
 				arrayToFill.add(newPlayer);
 				fillMarket(arrayToFill, position, limit-1);
@@ -40,7 +41,7 @@ public class Market
 		}
 	}
 	Market()
-	{
+	{	
 		//FILLS THE MARKET WITH THE MINIUM AMOUNT OF PLAYERS NEEDED TO FORM A TEAM
 		fillMarket(marketGoalie, Constants.goalie, Constants.marketGoalieMin);
 		fillMarket(marketDefender, Constants.defender, Constants.marketDefenderMin);
@@ -52,7 +53,7 @@ public class Market
 		fillMarket(marketMidfielder, Constants.midfielder, random.nextInt(Constants.marketMidfielderExtra - Constants.marketMidfielderMin) + Constants.marketMidfielderMin);
 		fillMarket(marketAttacker, Constants.attacker, random.nextInt(Constants.marketAttackerExtra - Constants.marketAttackerMin) + Constants.marketAttackerMin);
 	}	
-	/*
+	
 	public static void main(String[] args)
 	{
 		Market market = new Market();
@@ -68,6 +69,6 @@ public class Market
 		System.out.println("Youth "+ market.marketYouth.size());
 		System.out.println("total "+ (market.marketGoalie.size() + market.marketMidfielder.size() + market.marketDefender.size() + market.marketAttacker.size()));
 	}
-	*/
+	
 }
 

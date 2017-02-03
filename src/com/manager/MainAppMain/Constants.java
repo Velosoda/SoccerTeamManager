@@ -61,4 +61,7 @@ public class Constants
 	public static int leagueMaxTeams = 5; // does not count the users team 
 	//***********************************************************************************************************************
 	public static NumberFormat format = NumberFormat.getInstance(Locale.US);
+	//***********************************************************************************************************************
+	//GAME VARS
+	
 }

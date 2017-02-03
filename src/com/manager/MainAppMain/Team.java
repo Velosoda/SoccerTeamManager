@@ -20,9 +20,9 @@ public class Team
 		for(int i = 0; i < minPositionReq; i++)
 		{
 			Player player = marketArray.get(random.nextInt(minIndex));
-			if(this.budget >= player.cost)
+			if(this.budget >= player.getCost())
 			{
-				this.budget = this.budget - player.cost;
+				this.budget = this.budget - player.getCost();
 				team.add(player);
 				marketArray.remove(player); 
 			}
