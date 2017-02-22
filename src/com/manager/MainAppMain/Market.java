@@ -15,6 +15,19 @@ public class Market
 	ArrayList<Player> marketYouth = new ArrayList<Player>();
 	ArrayList<Player> marketTotal = new ArrayList<Player>();
 	public int totalMarketSize = (marketGoalie.size() + marketMidfielder.size() + marketDefender.size() + marketAttacker.size());
+	
+	
+	public void refreshMarket(Player playerToRemove)
+	{
+		for(int i = 0; i < marketTotal.size(); i++)
+		{
+			Player currentPlayer = marketTotal.get(i);
+			if(currentPlayer.equals(playerToRemove))
+			{
+				marketTotal.remove(i);
+			}
+		}
+	}
 	public void fillMarket(ArrayList<Player> arrayToFill, String position, int limit)
 	{
 		Player newPlayer = new Player();
@@ -57,10 +70,10 @@ public class Market
 	public static void main(String[] args)
 	{
 		Market market = new Market();
-		for(int i = 0; i < market.marketAttacker.size(); i++)
+		for(int i = 0; i < market.marketDefender.size(); i++)
 		{
 			System.out.println((i+1));
-			market.marketAttacker.get(i).printStats();
+			market.marketDefender.get(i).printStats();
 		}
 		System.out.println("ATT "+market.marketAttacker.size());
 		System.out.println("DEF "+market.marketDefender.size());

@@ -48,17 +48,17 @@ public class Constants
 	public static int initMarketSize = 72; // does not count the Youth;  number comes from summation of all market mins
 	//***********************************************************************************************************************
 	//TEAM VARIABLES
-	public static int teamBudget = 1300000; //1,300,000
+	public static double teamBudget = 1300000; //1,300,000
 	public static int teamStadiumSize = 10000; //10,000
-	public static int teamGoalieStarterLimit = 2;
-	public static int teamDefenderStarterLimit = 5; 
-	public static int teamMidfieldStarterLimit = 5;
-	public static int teamAttackerStarterLimit = 4; 
-	public static int teamBenchLimit = 5;
-	public static int teamReservesLimit = 9;
+	public static int teamGoalieStarterLimit = 1;
+	public static int teamDefenderStarterLimit = 4; 
+	public static int teamMidfieldStarterLimit = 4;
+	public static int teamAttackerStarterLimit = 2; 
+	public static int teamBenchLimit = 6;
+	//public static int teamReservesLimit = 9;
 	//***********************************************************************************************************************
 	//LEAGUE VARIABLES
-	public static int leagueMaxTeams = 5; // does not count the users team 
+	public static int leagueMaxTeams = 3; // does not count the users team 
 	//***********************************************************************************************************************
 	public static NumberFormat format = NumberFormat.getInstance(Locale.US);
 	//***********************************************************************************************************************
