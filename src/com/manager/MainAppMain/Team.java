@@ -16,38 +16,53 @@ public class Team
 	private  int midfieldCount;
 	private  int attackerCount;
 	private  int benchMax = Constants.teamBenchLimit;
+	//ID*************************
+	private int id;
+	
+	public int getId() {
+		return id;
+	}
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
 	ArrayList<Player> teamStarters = new ArrayList<Player> ();
 	ArrayList<Player> teamBench = new ArrayList<Player> (benchMax);
+	static ArrayList<Team> matches = new ArrayList<Team>();
+	
 	
 	Team(Market market)
 	{
 		for(int positionInTeamStarters = 0; positionInTeamStarters < 11; positionInTeamStarters++)
 		{
-			System.out.println("for loop:" + positionInTeamStarters);
+			//System.out.println("for loop:" + positionInTeamStarters);
 			if( positionInTeamStarters <= 1)
 			{
-				System.out.println("attacker add");
+				//System.out.println("attacker add");
 				addPlayer(market.marketAttacker, positionInTeamStarters, market);
 			}
 			if( positionInTeamStarters  > 1 &&   positionInTeamStarters  <= 5)
 			{
-				System.out.println("midfielder add");
+				//System.out.println("midfielder add");
 				addPlayer(market.marketMidfielder, positionInTeamStarters, market);
 			}
 
 			if( positionInTeamStarters  > 5 &&   positionInTeamStarters  <= 9)
 			{
-				System.out.println("defender add");
+				//System.out.println("defender add");
 				addPlayer(market.marketDefender, positionInTeamStarters, market);
 			}
 			
 			if( positionInTeamStarters  == 10)
 			{
-				System.out.println("goalie add");
+				//System.out.println("goalie add");
 				addPlayer(market.marketGoalie, positionInTeamStarters, market);
 			}
 		}		
 	}
+	
+	
 	public void addPlayer(ArrayList<Player> origin, int positionInTeamStarters, Market market)
 	{
 		for(int i = 0; i < origin.size(); i++)
@@ -65,28 +80,82 @@ public class Team
 		}
 	}	
 
+	//Begin Edit	*****************************************************
+	
+	public static ArrayList<Team> makeLeague(Market market)//makes league by taking in a market as an argument, when the League gets made so too do the teams themselves
+	{
+		ArrayList<Team> league = new ArrayList<Team>();
+		for(int i = 0; i < Constants.leagueMaxTeams; i++)
+		{
+			league.add(new Team(market));
+			league.get(i).setId(i);//IDs are created for the team based on their index. After this they have a set ID thats easy to reference
+		}		
+		return league;
+	}
+	
+	/*  //*****Broken, This is what I salvaged from trying to make the actual match with regards to what team is going to play against what other team******
+	public static Team[] makeMatch(ArrayList<Team> league)
+	{
+		
+		Team[] match = new Team[2];
+		
+	    match[0] = homeTeam;
+		match[1] = awayTeam;
+		System.out.println("home team: " + homeTeam.getId());
+		System.out.println("away team: " + awayTeam.getId());
+		league.get(homeTeam.getId()).matches.remove(awayTeam);
+		System.out.println(homeTeam.getId() + " versus " + awayTeam.getId());
+		return match;
+	}
+	*/
+	
+	public static void matchup(ArrayList<Team> league)//Each element of the League array gets their own array that includes all OTHER teams
+	{
+		
+		for(int i = 0; i < league.size(); i++)
+		{
+			for(int j = 0 ; j < league.size(); j ++)
+			{
+			if(j == league.get(i).getId())
+					continue;
+				else
+					league.get(i).matches.add(league.get(j));
+				
+				System.out.println("Matchups Testing: Team " + i + " will face " + j);
+			}
+		}
+	}
+
+	//End Edit
+	
 	Team(String x)
 	{
 		
 	}
 	
-	public static void main(String[] args)
+	
+	public  static void main(String[] args)
 	{
 		Market market = new Market();
 		Team team = new Team(market);
-		//System.out.println("Attacker Location" + market.marketAttacker);
-		//System.out.println("Defender Location" + market.marketDefender);
-		//System.out.println("Midfielder Location" + market.marketMidfielder);
-		//System.out.println("Goalie Location" + market.marketGoalie);
-		//System.out.println(team.teamStarters.size());
-		//System.out.println("budget" + team.getBudget());
+		ArrayList<Team> league = makeLeague(market); //League is made here using the market made in line 139
+		matchup(league);//League is sent to matchup and the console should show who will play against who
+		
+		
+		/* **********************Prints stats of all players for a TEST team
 		for(int i = 0; i < team.teamStarters.size(); i++)
 		{
 			System.out.println("player number " + i);
 			Player x = team.teamStarters.get(i);
 			x.printStats();
 		}
-	}	
+		*/
+	}
+	
+	
+	
+	
+	
 	public double getBudget() {
 		return Budget;
 	}
