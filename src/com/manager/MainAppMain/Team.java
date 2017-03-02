@@ -16,38 +16,42 @@ public class Team
 	private  int midfieldCount;
 	private  int attackerCount;
 	private  int benchMax = Constants.teamBenchLimit;
+	//ID*************************
+	private int id;
 	ArrayList<Player> teamStarters = new ArrayList<Player> ();
 	ArrayList<Player> teamBench = new ArrayList<Player> (benchMax);
+	ArrayList<Integer> matches = new ArrayList<Integer>();
 	
 	Team(Market market)
 	{
 		for(int positionInTeamStarters = 0; positionInTeamStarters < 11; positionInTeamStarters++)
 		{
-			System.out.println("for loop:" + positionInTeamStarters);
+			//System.out.println("for loop:" + positionInTeamStarters);
 			if( positionInTeamStarters <= 1)
 			{
-				System.out.println("attacker add");
+				//System.out.println("attacker add");
 				addPlayer(market.marketAttacker, positionInTeamStarters, market);
 			}
 			if( positionInTeamStarters  > 1 &&   positionInTeamStarters  <= 5)
 			{
-				System.out.println("midfielder add");
+				//System.out.println("midfielder add");
 				addPlayer(market.marketMidfielder, positionInTeamStarters, market);
 			}
 
 			if( positionInTeamStarters  > 5 &&   positionInTeamStarters  <= 9)
 			{
-				System.out.println("defender add");
+				//System.out.println("defender add");
 				addPlayer(market.marketDefender, positionInTeamStarters, market);
 			}
 			
 			if( positionInTeamStarters  == 10)
 			{
-				System.out.println("goalie add");
+				//System.out.println("goalie add");
 				addPlayer(market.marketGoalie, positionInTeamStarters, market);
 			}
 		}		
 	}
+	
 	public void addPlayer(ArrayList<Player> origin, int positionInTeamStarters, Market market)
 	{
 		for(int i = 0; i < origin.size(); i++)
@@ -64,29 +68,37 @@ public class Team
 			}
 		}
 	}	
-
+	
 	Team(String x)
 	{
 		
 	}
 	
-	public static void main(String[] args)
+	public  static void main(String[] args)
 	{
 		Market market = new Market();
 		Team team = new Team(market);
-		//System.out.println("Attacker Location" + market.marketAttacker);
-		//System.out.println("Defender Location" + market.marketDefender);
-		//System.out.println("Midfielder Location" + market.marketMidfielder);
-		//System.out.println("Goalie Location" + market.marketGoalie);
-		//System.out.println(team.teamStarters.size());
-		//System.out.println("budget" + team.getBudget());
+		
+		
+		/* **********************Prints stats of all players for a TEST team
 		for(int i = 0; i < team.teamStarters.size(); i++)
 		{
 			System.out.println("player number " + i);
 			Player x = team.teamStarters.get(i);
 			x.printStats();
 		}
-	}	
+		*/
+	}
+	
+	
+	
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public double getBudget() {
 		return Budget;
 	}

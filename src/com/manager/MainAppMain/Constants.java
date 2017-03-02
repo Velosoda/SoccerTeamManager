@@ -58,7 +58,7 @@ public class Constants
 	//public static int teamReservesLimit = 9;
 	//***********************************************************************************************************************
 	//LEAGUE VARIABLES
-	public static int leagueMaxTeams = 3; // does not count the users team 
+	public static int leagueMaxTeams = 4; // does count the users team 
 	//***********************************************************************************************************************
 	public static NumberFormat format = NumberFormat.getInstance(Locale.US);
 	//***********************************************************************************************************************

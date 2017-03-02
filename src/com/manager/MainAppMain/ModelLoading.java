@@ -4,6 +4,7 @@ import java.util.*;
 
 public class ModelLoading 
 {
+	
 	ArrayList<Player> totalMarket = new ArrayList<Player>();
 	
 	public void fillTotalMarket(ArrayList<Player> position)

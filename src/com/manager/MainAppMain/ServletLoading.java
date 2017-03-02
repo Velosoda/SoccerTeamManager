@@ -1,6 +1,8 @@
 package com.manager.MainAppMain;
 
 import java.io.IOException;
+
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,30 +25,18 @@ public class ServletLoading extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+		ServletContext STM = getServletConfig().getServletContext();
 		Market market = new Market(); 
+		League league = new League(market); 
 		ModelLoading ml = new ModelLoading();
 		ml.fillTotalMarket(market.marketAttacker);
 		ml.fillTotalMarket(market.marketMidfielder);
 		ml.fillTotalMarket(market.marketDefender);
 		ml.fillTotalMarket(market.marketGoalie);
 		ml.fillTotalMarket(market.marketYouth);
-		int attacker = market.marketAttacker.size();
-		int midfielder = market.marketMidfielder.size();
-		int defender = market.marketDefender.size();
-		int goalie = market.marketGoalie.size();
-		int youth = market.marketYouth.size();
-		
-		System.out.println("TotalMarket size "+ ml.totalMarket.size());
-		for(int i = 0; i < ml.totalMarket.size(); i++)
-		{
-			ml.totalMarket.get(i).printStats();
-		}
-		request.setAttribute("totalMarket", ml.totalMarket);
-		request.setAttribute("attacker", attacker);
-		request.setAttribute("midfielder", midfielder);
-		request.setAttribute("defender", defender);
-		request.setAttribute("goalie", goalie);
-		request.setAttribute("youth", youth);
-		request.getRequestDispatcher("JSP/market.jsp").forward(request, response);
+		STM.setAttribute("market", market);
+		STM.setAttribute("league", league);
+		STM.setAttribute("ModelLoading", ml);
+		request.getRequestDispatcher("/JSP/mainmenu.jsp").forward(request, response);
 	}
 }
