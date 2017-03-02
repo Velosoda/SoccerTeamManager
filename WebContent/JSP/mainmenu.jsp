@@ -25,10 +25,9 @@
 </head>
 	<body>
 	  <div class="mainmenu">
-	  	<a class="clickMe" href="NextFixture"> Next Fixture </a>
 		<a class="clickMe" href="Market"> Market </a> 
-	 	<a class="clickMe" href="Team"> Team </a>
-	 	<a class="clickMe" href="League"> League </a>
+	 	<a class="clickMe" href="Team"> View Teams </a>
+	 	<a class="clickMe" href="ViewFixtures"> View Fixtures </a>
 	  </div>
 	</body>
 </html>
