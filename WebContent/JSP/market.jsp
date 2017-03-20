@@ -8,11 +8,11 @@
 <title>SMG-Player Market</title>
 </head>
 <body>
-	<p>${attacker}</p>
-	<p>${midfielder}</p>
-	<p>${defender}</p>
-	<p>${goalie}</p>
-	<p>${youth}</p>
+	<p>There are ${attacker} attackers </p>
+	<p>There are ${midfielder} midfielders</p>
+	<p>There are ${defender} defenders</p>
+	<p>There are ${goalie} goalies</p>
+	<p>There are ${youth} youth players</p>
 	<table>
 		<thead>
 			<tr>
@@ -25,6 +25,7 @@
 				<th>Position</th>
 				<th>Overall</th>
 				<th>Cost</th>
+				<th>Name</th>
 			<tr>
 		</thead>
 		<tbody>
@@ -39,6 +40,7 @@
 					<td><c:out value="${totalMarket.naturalPosition}"/></td>
 					<td><c:out value="${totalMarket.overall}"/></td>
 					<td><c:out value="${totalMarket.cost}"/></td>
+					<td><c:out value="${totalMarket.name}"></c:out>
 				</tr>
 			</c:forEach>
 		</tbody>
