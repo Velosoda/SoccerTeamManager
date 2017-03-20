@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/Market")
+@WebServlet("/Market")//declaring the name of the servlet
 public class ServletMarket extends HttpServlet 
 {
 	private static final long serialVersionUID = 1L;
@@ -37,11 +37,11 @@ public class ServletMarket extends HttpServlet
 			ml.totalMarket.get(i).printStats();
 		}
 		request.setAttribute("totalMarket", ml.totalMarket);
-		request.setAttribute("attacker", attacker);
-		request.setAttribute("midfielder", midfielder);
-		request.setAttribute("defender", defender);
-		request.setAttribute("goalie", goalie);
-		request.setAttribute("youth", youth);
+		request.setAttribute("attacker", attacker);//size
+		request.setAttribute("midfielder", midfielder);//size
+		request.setAttribute("defender", defender);//size
+		request.setAttribute("goalie", goalie);//size
+		request.setAttribute("youth", youth);//size
 		request.getRequestDispatcher("JSP/market.jsp").forward(request, response);
 	}
 
