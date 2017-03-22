@@ -76,8 +76,8 @@ public class Team
 	
 	public  static void main(String[] args)
 	{
-		Market market = new Market();
-		Team team = new Team(market);
+		//Market market = new Market();
+		//Team team = new Team(market);
 		
 		
 		/* **********************Prints stats of all players for a TEST team

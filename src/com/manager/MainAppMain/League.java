@@ -60,7 +60,7 @@ public class League
 		System.out.println(allTeams.size());
 	}
 	
-	public static void main(String[] args)
+	/*public static void main(String[] args)
 	{
 		Market market = new Market();
 		League league = new League(market);
@@ -72,7 +72,7 @@ public class League
 			}
 		}
 	}
-	
+	*/
 	
 	//getter and setters
 	public int getMaxNoHomeGames() {
