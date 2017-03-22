@@ -29,9 +29,10 @@
 		</tbody>
 	</table>
 	<p>Team ${bipass}<p>
-		<table>
+		<table border = "1px">
 		<thead>
 			<tr>
+				<th>Name</th>
 				<th>Age</th>
 				<th>AgeGroup</th>
 				<th>Attack</th>
@@ -46,6 +47,7 @@
 		<tbody>
 			<c:forEach var="sts"  items= "${selectedTeamStarters}">
 				<tr>
+					<td><c:out value="${sts.name}"></c:out>
 					<td><c:out value="${sts.age}"/></td>
 					<td><c:out value="${sts.ageGroup}"/></td>
 					<td><c:out value="${sts.attackSkill}"/></td>
@@ -58,11 +60,12 @@
 				</tr>
 			</c:forEach>
 		</tbody>
-	</table>
+	</table border = "1px">
 	<p>Team ${bipass} Bench</p>
 	<table>
 		<thead>
 			<tr>
+				<th>Name</th>
 				<th>Age</th>
 				<th>AgeGroup</th>
 				<th>Attack</th>
@@ -77,6 +80,7 @@
 		<tbody>
 			<c:forEach var="stb"  items= "${selectedTeamBench}">
 				<tr>
+					<td><c:out value="${stb.name}"></c:out>
 					<td><c:out value="${stb.age}"/></td>
 					<td><c:out value="${stb.ageGroup}"/></td>
 					<td><c:out value="${stb.attackSkill}"/></td>
