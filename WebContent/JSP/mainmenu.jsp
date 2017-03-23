@@ -4,10 +4,30 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Soccer Manager Game</title>
+<style type = "text/css">
+	.mainmenu
+  	{
+		 	 
+	}
+	.clickMe 
+	{
+	   	-moz-appearance: button;
+	    -ms-appearance: button;
+	    -o-appearance: button;
+	    -webkit-appearance: button;
+	    appearance: button;
+	    text-decoration: none;
+	    color: #000;
+	    padding: 0.2em 0.4em;
+	}
+</style>
 </head>
-<body>
- <p><p>
- 
-</body>
+	<body>
+	  <div class="mainmenu">
+		<a class="clickMe" href="Market"> Market </a> 
+	 	<a class="clickMe" href="Team"> View Teams </a>
+	 	<a class="clickMe" href="ViewFixtures"> View Fixtures </a>
+	  </div>
+	</body>
 </html>
