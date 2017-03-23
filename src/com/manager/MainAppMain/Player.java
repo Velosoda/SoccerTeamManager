@@ -1,56 +1,241 @@
 package com.manager.MainAppMain;
 
+import java.util.ArrayList;
 import java.util.Random;
+import java.io.*;
 
 public class Player 
 {
 	Random random = new Random();
-	public String currentTeam = "";
-	public String naturalPosition = "";
-	public String currentPosition = ""; 
-	public int attackSkill;
-	public int midfieldSkill;
-	public int defenceSkill;
-	public double cost;
-	public int overall;
-	public int age;
-	public String ageGroup;
-	Player()
-	{
-		this.age = random.nextInt(Constants.maxAge - Constants.minAge) + Constants.minAge;
-		if(age <= 20)
+	private String currentTeam = "";
+	private String naturalPosition = "";
+	private String currentPosition = ""; 
+	private int attackSkill;
+	private int midfieldSkill;
+	private int defenseSkill;
+	private int goalieSkill;
+	private Double cost = Constants.defaultCostPerPlayer;
+	private int overall;
+	private int age;
+	private int growth;
+	private int injuryRisk ; 
+	private String ageGroup;
+	
+	Player() throws IOException
+	{		
+		setAge(random.nextInt(Constants.maxAge - Constants.minAge) + Constants.minAge);
+		if(getAge() <= 20)
 		{
-			this.attackSkill = random.nextInt(Constants.youthSkillMax - Constants.youthSkillMin) + Constants.youthSkillMin;
-			this.defenceSkill = random.nextInt(Constants.youthSkillMax - Constants.youthSkillMin) + Constants.youthSkillMin;
-			this.midfieldSkill = random.nextInt(Constants.youthSkillMax - Constants.youthSkillMin) + Constants.youthSkillMin;
-			this.ageGroup = "Youth";
+			setGoalieSkill(random.nextInt(Constants.youthSkillMax - Constants.youthSkillMin) + Constants.youthSkillMin);
+			setAttackSkill(random.nextInt(Constants.youthSkillMax - Constants.youthSkillMin) + Constants.youthSkillMin);
+			setDefenseSkill(random.nextInt(Constants.youthSkillMax - Constants.youthSkillMin) + Constants.youthSkillMin);
+			setMidfieldSkill(random.nextInt(Constants.youthSkillMax - Constants.youthSkillMin) + Constants.youthSkillMin);
+			setGrowth(Constants.youthGrowth);
+			positionDeterminator();
+			setAgeGroup(Constants.youth);
 		}
-		else if(age > 20 && age <=30)
-		{			
-			this.attackSkill = random.nextInt(Constants.proSkillMax - Constants.proSkillMin) + Constants.proSkillMin;
-			this.defenceSkill = random.nextInt(Constants.proSkillMax - Constants.proSkillMin) + Constants.proSkillMin;
-			this.midfieldSkill = random.nextInt(Constants.proSkillMax - Constants.proSkillMin) + Constants.proSkillMin;
-			this.ageGroup = "Pro";
-		}
-		else if(age > 30)
+		else if(getAge() > 20 && getAge() <= 30)
 		{
-			this.attackSkill = random.nextInt(Constants.expertSkillMax - Constants.expertSkillMin) + Constants.expertSkillMin;
-			this.defenceSkill = random.nextInt(Constants.expertSkillMax - Constants.expertSkillMin) + Constants.expertSkillMin;
-			this.midfieldSkill = random.nextInt(Constants.expertSkillMax - Constants.expertSkillMin) + Constants.expertSkillMin;
-			this.ageGroup = "Experienced";
+			setGoalieSkill(random.nextInt(Constants.proSkillMax - Constants.proSkillMin) + Constants.proSkillMin);
+			setAttackSkill(random.nextInt(Constants.proSkillMax - Constants.proSkillMin) + Constants.proSkillMin);
+			setDefenseSkill(random.nextInt(Constants.proSkillMax - Constants.proSkillMin) + Constants.proSkillMin);
+			setMidfieldSkill(random.nextInt(Constants.proSkillMax - Constants.proSkillMin) + Constants.proSkillMin);
+			setGrowth(Constants.proGrowth);
+			positionDeterminator();
+			setAgeGroup(Constants.pro);
 		}
-		this.overall = (this.attackSkill + this.midfieldSkill + this.defenceSkill)/3;
-		this.cost = overall/100;
+		else if(getAge() > 30)
+		{
+			setGoalieSkill(random.nextInt(Constants.expertSkillMax - Constants.expertSkillMin) + Constants.expertSkillMin);
+			setAttackSkill(random.nextInt(Constants.expertSkillMax - Constants.expertSkillMin) + Constants.expertSkillMin);
+			setDefenseSkill(random.nextInt(Constants.expertSkillMax - Constants.expertSkillMin) + Constants.expertSkillMin);
+			setMidfieldSkill(random.nextInt(Constants.expertSkillMax - Constants.expertSkillMin) + Constants.expertSkillMin);
+			setGrowth(Constants.expertGrowth);
+			positionDeterminator();
+			setAgeGroup(Constants.experienced);
+		}
+		this.setCost(this.getCost() * this.getOverall()/100);
+		
 	}
-	public static void main(String[] args)
+	public void positionDeterminator()
 	{
-		Player player = new Player();
-		System.out.println("Age: " + player.age);
-		System.out.println("Age Group: " + player.ageGroup);
-		System.out.println("Attack: " + player.attackSkill);
-		System.out.println("MidFeild: "+ player.midfieldSkill);
-		System.out.println("Defender: " + player.defenceSkill);
-		System.out.println("Overall: " + player.overall);
-		System.out.println("Cost: " + player.cost);
+		if(getAttackSkill() > getDefenseSkill() && getAttackSkill() > getMidfieldSkill() && getAttackSkill() > getGoalieSkill())
+		{
+			setNaturalPosition(Constants.attacker);
+			setGoalieSkill(random.nextInt(Constants.youthSkillMin));
+			setOverall((getAttackSkill() + getMidfieldSkill()  + getDefenseSkill())/3);
+			return;
+		}
+		else if(getDefenseSkill() > getMidfieldSkill() && getDefenseSkill() > getAttackSkill() && getDefenseSkill() > getGoalieSkill())
+		{
+			setNaturalPosition(Constants.defender);
+			setGoalieSkill(random.nextInt(Constants.youthSkillMin));
+			setOverall((getAttackSkill() + getMidfieldSkill()  + getDefenseSkill())/3);
+			return;
+		}
+		else if(getMidfieldSkill() > getAttackSkill() && getMidfieldSkill() > getDefenseSkill() && getMidfieldSkill() > getGoalieSkill())
+		{
+			setNaturalPosition(Constants.midfielder);
+			setGoalieSkill(random.nextInt(Constants.youthSkillMin));
+			setOverall((getAttackSkill() + getMidfieldSkill()  + getDefenseSkill())/3);
+			return;
+		}
+		else if(getGoalieSkill() > getAttackSkill() && getGoalieSkill() > getMidfieldSkill() && getGoalieSkill() > getDefenseSkill())
+		{
+			setNaturalPosition(Constants.goalie);
+			setAttackSkill(random.nextInt(Constants.youthSkillMin));
+			setDefenseSkill(random.nextInt(Constants.youthSkillMin));
+			setMidfieldSkill(random.nextInt(Constants.youthSkillMin));
+			setOverall(getGoalieSkill());
+			return;
+		}
+		else
+		{
+			if(getAttackSkill() == getMidfieldSkill() || getAttackSkill() == getDefenseSkill())
+			{
+				setNaturalPosition(Constants.attacker);
+				setOverall((getAttackSkill() + getMidfieldSkill()  + getDefenseSkill())/3);
+				setCost(getCost()+50000);
+			}
+			else if(getMidfieldSkill() == getDefenseSkill())
+			{
+				setNaturalPosition(Constants.midfielder);
+				setOverall((getAttackSkill() + getMidfieldSkill()  + getDefenseSkill())/3);
+				setCost(getCost()+50000);
+			}
+			else if(getAttackSkill() == getGoalieSkill() || getMidfieldSkill() == getGoalieSkill() || getDefenseSkill() == getGoalieSkill())
+			{
+				setNaturalPosition(Constants.goalie);
+				setOverall(getGoalieSkill());
+				setCost(getCost()+50000);
+			}
+			return;
+		}
 	}
+	public void printStats()
+	{
+		System.out.println("Age: " + getAge());
+		System.out.println("Age Group: " + getAgeGroup());
+		System.out.println("Attack: " + getAttackSkill());
+		System.out.println("MidField: "+ getMidfieldSkill());
+		System.out.println("Defence: " + getDefenseSkill());
+		System.out.println("Goaltending: " + getGoalieSkill());
+		System.out.println("Position: " + getNaturalPosition());
+		System.out.println("Overall: " + getOverall());
+		System.out.println("Cost: $" + Constants.format.format(getCost()));
+		System.out.println("Name is " + getName());
+		System.out.println();
+	}
+	public String getCurrentTeam() {
+		return currentTeam;
+	}
+	public void setCurrentTeam(String currentTeam) {
+		this.currentTeam = currentTeam;
+	}
+	public String getNaturalPosition() {
+		return naturalPosition;
+	}
+	public void setNaturalPosition(String naturalPosition) {
+		this.naturalPosition = naturalPosition;
+	}
+	public String getCurrentPosition() {
+		return currentPosition;
+	}
+	public void setCurrentPosition(String currentPosition) {
+		this.currentPosition = currentPosition;
+	}
+	public int getAttackSkill() {
+		return attackSkill;
+	}
+	public void setAttackSkill(int attackSkill) {
+		this.attackSkill = attackSkill;
+	}
+	public int getMidfieldSkill() {
+		return midfieldSkill;
+	}
+	public void setMidfieldSkill(int midfieldSkill) {
+		this.midfieldSkill = midfieldSkill;
+	}
+	public int getDefenseSkill() {
+		return defenseSkill;
+	}
+	public void setDefenseSkill(int defenseSkill) {
+		this.defenseSkill = defenseSkill;
+	}
+	public int getGoalieSkill() {
+		return goalieSkill;
+	}
+	public void setGoalieSkill(int goalieSkill) {
+		this.goalieSkill = goalieSkill;
+	}
+	public Double getCost() {
+		return cost;
+	}
+	public void setCost(Double cost) {
+		this.cost = cost;
+	}
+	public int getOverall() {
+		return overall;
+	}
+	public void setOverall(int overall) {
+		this.overall = overall;
+	}
+	public int getAge() {
+		return age;
+	}
+	public void setAge(int age) {
+		this.age = age;
+	}
+	public int getGrowth() {
+		return growth;
+	}
+	public void setGrowth(int growth) {
+		this.growth = growth;
+	}
+	public int getInjuryRisk() {
+		return injuryRisk;
+	}
+	public void setInjuryRisk(int injuryRisk) {
+		this.injuryRisk = injuryRisk;
+	}
+	public String getAgeGroup() {
+		return ageGroup;
+	}
+	public void setAgeGroup(String ageGroup) {
+		this.ageGroup = ageGroup;
+	}
+	private String name;
+
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public static void main(String[] args) throws IOException
+	{
+		ArrayList<Player> league = new ArrayList<Player>();
+		for(int i = 0; i < 50; i++)
+		{
+			Player player = new Player();
+			if(player.naturalPosition.equals(Constants.goalie))
+			{
+			}
+			System.out.println("Age: " + player.getAge());
+			System.out.println("Age Group: " + player.getAgeGroup());
+			System.out.println("Attack: " + player.getAttackSkill());
+			System.out.println("MidField: "+ player.getMidfieldSkill());
+			System.out.println("Defense: " + player.getDefenseSkill());
+			System.out.println("Goalie: " + player.getGoalieSkill());
+			System.out.println("Position: " + player.getNaturalPosition());
+			System.out.println("Overall: " + player.getOverall());
+			System.out.println("Cost: $" + Constants.format.format(player.getCost()));
+			System.out.println();
+			System.out.println(player.getName());
+		}
+		
+		
+	}
+	
 }
