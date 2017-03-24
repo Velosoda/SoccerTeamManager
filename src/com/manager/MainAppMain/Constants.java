@@ -60,6 +60,7 @@ public class Constants
 	public static int teamMidfieldStarterLimit = 4;
 	public static int teamAttackerStarterLimit = 2; 
 	public static int teamBenchLimit = 6;
+	public static int userTeamId = 3;
 	//public static int teamReservesLimit = 9;
 	//***********************************************************************************************************************
 	//LEAGUE VARIABLES

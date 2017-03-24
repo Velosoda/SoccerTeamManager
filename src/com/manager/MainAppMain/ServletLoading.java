@@ -10,7 +10,8 @@ import java.io.*;
 import java.util.*;
 
 @WebServlet("/Loading")
-public class ServletLoading extends HttpServlet {
+public class ServletLoading extends HttpServlet 
+{
 	private static final long serialVersionUID = 1L; 
 	
     public ServletLoading() 
@@ -55,13 +56,12 @@ public class ServletLoading extends HttpServlet {
 		STM.setAttribute("league", league);
 		STM.setAttribute("ModelLoading", ml);
 		
-		
 		//send market to request
 		request.setAttribute("totalMarket", ml.totalMarket);
 		request.setAttribute("marketSize", ml.totalMarket.size());
 
 		//go to main menu
-		request.getRequestDispatcher("/JSP/initialUserSetup.jsp").forward(request, response);
+		request.getRequestDispatcher("/JSP/initUserSetup.jsp").forward(request, response);
 		//request.getRequestDispatcher("/JSP/mainmenu.jsp").forward(request, response);
 	}
 }
