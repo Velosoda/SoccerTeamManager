@@ -57,7 +57,6 @@ public class League
 		Team usersTeam = new Team("user");
 		usersTeam.setId(Constants.leagueMaxTeams-1);
 		allTeams.add(usersTeam);
-		System.out.println(allTeams.size());
 	}
 	
 	/*public static void main(String[] args)

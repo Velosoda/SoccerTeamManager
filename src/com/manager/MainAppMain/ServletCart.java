@@ -39,12 +39,12 @@ public class ServletCart extends HttpServlet
 		
 		for(int i = 0; i < selectedPlayer.length; i++)
 		{
-			for(int j = 0; j < ml.totalMarket.size(); j++)
+			for(int j = 0; j <  market.marketTotal.size(); j++)
 			{
-				if(ml.totalMarket.get(j).getName().equals(selectedPlayer[i]))
+				if( market.marketTotal.get(j).getName().equals(selectedPlayer[i]))
 				{
-					detailedList.add(ml.totalMarket.get(j));
-					totalCost = totalCost + ml.totalMarket.get(j).getCost();
+					detailedList.add( market.marketTotal.get(j));
+					totalCost = totalCost +  market.marketTotal.get(j).getCost();
 				}
 			}
 		}

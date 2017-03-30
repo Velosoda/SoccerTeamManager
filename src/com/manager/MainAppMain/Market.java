@@ -7,9 +7,6 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.io.*;
 
-
-//the array list has to be passed around until it reaches the player constructor. I tried every other method under the sun but this seems to be the only stable way. 
-//at the very least the array is  still only being made once
 public class Market 
 {
 	Random random = new Random();

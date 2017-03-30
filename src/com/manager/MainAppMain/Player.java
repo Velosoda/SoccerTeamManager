@@ -54,7 +54,7 @@ public class Player
 			positionDeterminator();
 			setAgeGroup(Constants.experienced);
 		}
-		setCost((getCost() * getOverall())/100);
+		this.setCost(this.getCost() * this.getOverall()/100);
 		
 	}
 	public void positionDeterminator()
@@ -95,19 +95,19 @@ public class Player
 			{
 				setNaturalPosition(Constants.attacker);
 				setOverall((getAttackSkill() + getMidfieldSkill()  + getDefenseSkill())/3);
-				setCost((getCost() * getOverall())/100);
+				setCost(getCost()+50000);
 			}
 			else if(getMidfieldSkill() == getDefenseSkill())
 			{
 				setNaturalPosition(Constants.midfielder);
 				setOverall((getAttackSkill() + getMidfieldSkill()  + getDefenseSkill())/3);
-				setCost((getCost() * getOverall())/100);
+				setCost(getCost()+50000);
 			}
 			else if(getAttackSkill() == getGoalieSkill() || getMidfieldSkill() == getGoalieSkill() || getDefenseSkill() == getGoalieSkill())
 			{
 				setNaturalPosition(Constants.goalie);
 				setOverall(getGoalieSkill());
-				setCost((getCost() * getOverall())/100);
+				setCost(getCost()+50000);
 			}
 			return;
 		}

@@ -21,6 +21,7 @@ public class Team
 	ArrayList<Player> teamStarters = new ArrayList<Player> ();
 	ArrayList<Player> teamBench = new ArrayList<Player> (benchMax);
 	ArrayList<Integer> matches = new ArrayList<Integer>();
+	ArrayList<Player> selectedPFM = new ArrayList<Player>(); //Players From Market : PFM
 	
 	Team(Market market)
 	{
@@ -89,10 +90,7 @@ public class Team
 		}
 		*/
 	}
-	
-	
-	
-	
+
 	public int getId() {
 		return id;
 	}

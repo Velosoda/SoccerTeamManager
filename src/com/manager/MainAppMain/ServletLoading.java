@@ -10,7 +10,8 @@ import java.io.*;
 import java.util.*;
 
 @WebServlet("/Loading")
-public class ServletLoading extends HttpServlet {
+public class ServletLoading extends HttpServlet 
+{
 	private static final long serialVersionUID = 1L; 
 	
     public ServletLoading() 
@@ -24,7 +25,7 @@ public class ServletLoading extends HttpServlet {
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
-	{
+	{	
 		//load in all the names from the names.txt to arraylist "namesList" 
 		ArrayList<String> namesList = new ArrayList<String>();
 		BufferedReader br = new BufferedReader(new FileReader(getServletContext().getRealPath("/names.txt")));
@@ -52,7 +53,7 @@ public class ServletLoading extends HttpServlet {
 		
 		//store all the values created above to the context
 		STM.setAttribute("market", market);
-		STM.setAttribute("league", league);
+		STM.setAttribute("league", league); 
 		STM.setAttribute("ModelLoading", ml);
 		
 		//send market to request
@@ -60,7 +61,7 @@ public class ServletLoading extends HttpServlet {
 		request.setAttribute("marketSize", ml.totalMarket.size());
 
 		//go to main menu
-		request.getRequestDispatcher("/JSP/initialUserSetup.jsp").forward(request, response);
+		request.getRequestDispatcher("/JSP/initUserSetup.jsp").forward(request, response);
 		//request.getRequestDispatcher("/JSP/mainmenu.jsp").forward(request, response);
 	}
 }
