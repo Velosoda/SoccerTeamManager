@@ -16,6 +16,7 @@ public class Team
 	private  int midfieldCount;
 	private  int attackerCount;
 	private  int benchMax = Constants.teamBenchLimit;
+	private int points = 0;
 	//ID*************************
 	private int id;
 	ArrayList<Player> teamStarters = new ArrayList<Player> ();
@@ -162,6 +163,12 @@ public class Team
 	}
 	public void setBenchMax(int benchMax) {
 		this.benchMax = benchMax;
+	}
+		public int getPoints() {
+		return points;
+	}
+	public void setPoints(int points) {
+		this.points = points;
 	}
 }
 /*{
