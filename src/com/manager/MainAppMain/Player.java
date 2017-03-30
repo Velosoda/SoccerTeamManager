@@ -1,6 +1,8 @@
 package com.manager.MainAppMain;
 
+import java.util.ArrayList;
 import java.util.Random;
+import java.io.*;
 
 public class Player 
 {
@@ -18,8 +20,9 @@ public class Player
 	private int growth;
 	private int injuryRisk ; 
 	private String ageGroup;
-	Player()
-	{
+	
+	Player() throws IOException
+	{		
 		setAge(random.nextInt(Constants.maxAge - Constants.minAge) + Constants.minAge);
 		if(getAge() <= 20)
 		{
@@ -120,6 +123,7 @@ public class Player
 		System.out.println("Position: " + getNaturalPosition());
 		System.out.println("Overall: " + getOverall());
 		System.out.println("Cost: $" + Constants.format.format(getCost()));
+		System.out.println("Name is " + getName());
 		System.out.println();
 	}
 	public String getCurrentTeam() {
@@ -200,10 +204,18 @@ public class Player
 	public void setAgeGroup(String ageGroup) {
 		this.ageGroup = ageGroup;
 	}
-	/*
-	public static void main(String[] args)
+	private String name;
+
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public static void main(String[] args) throws IOException
 	{
-		//ArrayList<Player> league = new ArrayList<Player>();
+		ArrayList<Player> league = new ArrayList<Player>();
 		for(int i = 0; i < 50; i++)
 		{
 			Player player = new Player();
@@ -220,7 +232,10 @@ public class Player
 			System.out.println("Overall: " + player.getOverall());
 			System.out.println("Cost: $" + Constants.format.format(player.getCost()));
 			System.out.println();
+			System.out.println(player.getName());
 		}
+		
+		
 	}
-	*/
+	
 }

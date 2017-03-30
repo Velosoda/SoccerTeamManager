@@ -1,12 +1,22 @@
 package com.manager.MainAppMain;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class Constants 
 {
+	
+	//array of names
+	public static ArrayList<String> names = new ArrayList<String>();
+	
+	
+	
 	//*********************************************************************************************************************
+	
+
 	//STRING CONSTANTS
+		
 	public static String goalie = "Goalie"; 
 	public static String defender = "Defender"; 
 	public static String midfielder = "MidFielder"; 
@@ -15,6 +25,7 @@ public class Constants
 	public static String pro = "Pro";
 	public static String youth = "Youth";
 	public static String multiPosition = "Multi Positional";
+	
 	//**********************************************************************************************************************
 	//SKILL VARIABLES
 	public static int youthGrowth = 3;
@@ -58,10 +69,10 @@ public class Constants
 	//public static int teamReservesLimit = 9;
 	//***********************************************************************************************************************
 	//LEAGUE VARIABLES
-	public static int leagueMaxTeams = 3; // does not count the users team 
+	public static int leagueMaxTeams = 4; // does count the users team 
 	//***********************************************************************************************************************
 	public static NumberFormat format = NumberFormat.getInstance(Locale.US);
 	//***********************************************************************************************************************
-	//GAME VARS
-	
+	//GAME VARS	
+	public static String namesFilePath = "WebContent/names.txt";
 }
