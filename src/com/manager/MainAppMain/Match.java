@@ -14,8 +14,10 @@ public class Match {
 	{
 		
 	}
-	Match(Team a, Team b)
+	public void playerEvaluation(Team a, Team b)
 	{
+		a.setPoints(0);
+		b.setPoints(0);
 		System.out.println("A is team " + a.getId() + " B is team " + b.getId());
 		//determine winner of atk skill
 		for(int i = 0 ;i<2; i++)
@@ -23,9 +25,13 @@ public class Match {
 			if(a.teamStarters.get(i).getAttackSkill() < b.teamStarters.get(i).getAttackSkill() )
 			{
 				b.setPoints(b.getPoints()+ 1);
+				b.teamStarters.get(i).levelUp();
+				a.teamStarters.get(i).reprisal();
 			}
 			else
 				a.setPoints(a.getPoints()+1);
+				a.teamStarters.get(i).levelUp();
+				b.teamStarters.get(i).reprisal();	
 		}
 		System.out.println("A points:" + a.getPoints() + " B points: " + b.getPoints());
 		//determine winner of mf skill
@@ -34,9 +40,13 @@ public class Match {
 			if(a.teamStarters.get(i).getMidfieldSkill() < b.teamStarters.get(i).getMidfieldSkill())
 			{
 				b.setPoints(b.getPoints()+ 1);
+				b.teamStarters.get(i).levelUp();
+				a.teamStarters.get(i).reprisal();
 			}
 			else
 				a.setPoints(a.getPoints()+ 1);
+				a.teamStarters.get(i).levelUp();
+				b.teamStarters.get(i).reprisal();
 		}
 		System.out.println("A points:" + a.getPoints() + " B points: " + b.getPoints());
 		//determine winner of d skill
@@ -45,15 +55,21 @@ public class Match {
 			if(a.teamStarters.get(i).getDefenseSkill() < b.teamStarters.get(i).getDefenseSkill())
 			{
 				b.setPoints(b.getPoints()+ 1);
+				b.teamStarters.get(i).levelUp();
+				a.teamStarters.get(i).reprisal();
 			}
 			else
 				a.setPoints(a.getPoints()+ 1);
+				a.teamStarters.get(i).levelUp();
+				b.teamStarters.get(i).reprisal();
 		}
 		System.out.println("A points:" + a.getPoints() + " B points: " + b.getPoints());
 		//determine winner of goalie skill
 			if(a.teamStarters.get(10).getGoalieSkill() < b.teamStarters.get(10).getGoalieSkill())
 			{
 				b.setPoints(b.getPoints()+ 1);
+				b.teamStarters.get(10).levelUp();
+				a.teamStarters.get(10).reprisal();
 			}
 			else
 				a.setPoints(a.getPoints()+ 1);
@@ -64,9 +80,87 @@ public class Match {
 			this.setWinner(b); this.setLoser(a);
 		}
 		else
-		{
 			this.setWinner(a); this.setLoser(b);
+	}
+	public void playMatch(Team a, Team b)
+	{
+		
+		ArrayList<Player> teamb = b.teamStarters;
+		ArrayList<Player> teama = a.teamStarters;
+		int atkAvgA = (teama.get(0).getAttackSkill() + teama.get(1).getAttackSkill()) / 2;
+		int atkAvgB = (teamb.get(0).getAttackSkill() + teamb.get(1).getAttackSkill()) / 2;
+		if(atkAvgA > atkAvgB)
+		{
+			a.setGoals(a.getGoals() + 1);
 		}
+		else if(atkAvgA == atkAvgB)
+		{
+			a.setGoals(a.getGoals() + 1);
+			b.setGoals(b.getGoals() + 1);
+		}
+		else 
+		{
+			b.setGoals(b.getGoals() + 1);
+		}
+		
+		int mfAvgA = (teama.get(2).getMidfieldSkill() + teama.get(3).getMidfieldSkill()  + teama.get(4).getMidfieldSkill() + teama.get(5).getMidfieldSkill()) / 4;
+		int mfAvgB = (teamb.get(2).getMidfieldSkill() + teamb.get(3).getMidfieldSkill()  + teamb.get(4).getMidfieldSkill() + teamb.get(5).getMidfieldSkill()) / 4;
+		if(mfAvgA > mfAvgB)
+		{
+			a.setGoals(a.getGoals() + 1);
+		}
+		else if(mfAvgA == mfAvgB)
+		{
+			a.setGoals(a.getGoals() + 1);
+			b.setGoals(b.getGoals() + 1);
+		}
+		else 
+		{
+			b.setGoals(b.getGoals() + 1);
+		}
+		
+		int dAvgA = (teama.get(6).getDefenseSkill() + teama.get(7).getDefenseSkill()  + teama.get(8).getDefenseSkill() + teama.get(9).getDefenseSkill()) / 4;
+		int dAvgB = (teamb.get(6).getDefenseSkill() + teamb.get(7).getDefenseSkill()  + teamb.get(8).getDefenseSkill() + teamb.get(9).getDefenseSkill()) / 4;
+		if(dAvgA > dAvgB)
+		{
+			a.setGoals(a.getGoals() + 1);
+		}
+		else if(dAvgA == dAvgB)
+		{
+			a.setGoals(a.getGoals() + 1);
+			b.setGoals(b.getGoals() + 1);
+		}
+		else 
+		{
+			b.setGoals(b.getGoals() + 1);
+		}
+		
+		
+		int gAvgA = teama.get(10).getGoalieSkill();
+		int gAvgB = (teamb.get(10).getGoalieSkill());
+		if(gAvgA > gAvgB)
+		{
+			a.setGoals(a.getGoals() + 1);
+		}
+		else if(gAvgA == gAvgB)
+		{
+			a.setGoals(a.getGoals() + 1);
+			b.setGoals(b.getGoals() + 1);
+		}
+		else 
+		{
+			b.setGoals(b.getGoals() + 1);
+		}
+		System.out.println("atk avg A is " + atkAvgA);
+		System.out.println("atk avg B is " + atkAvgB);
+		System.out.println("mf avg A is " + mfAvgA);
+		System.out.println("mf avg B is " + mfAvgB);
+		System.out.println("d avg A is " + dAvgA);
+		System.out.println("d avg B is " + dAvgB);
+		System.out.println("g avg A is " + gAvgA);
+		System.out.println("g avg B is " + gAvgB);
+		System.out.println("A scored " + a.getGoals() + " goals");
+		System.out.println("B scored " + b.getGoals() + " goals");
 	}
 	public void firstMatch(League league)
 	{
