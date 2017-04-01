@@ -1,11 +1,8 @@
 package com.manager.MainAppMain;
 
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Scanner;
-import java.io.*;
-import java.net.*;
+
 public class Constants 
 {
 

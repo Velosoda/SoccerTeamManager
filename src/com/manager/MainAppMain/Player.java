@@ -1,6 +1,5 @@
 package com.manager.MainAppMain;
 
-import java.util.ArrayList;
 import java.util.Random;
 import java.io.*;
 
@@ -243,7 +242,7 @@ public class Player
 	
 	public static void main(String[] args) throws IOException
 	{
-		ArrayList<Player> league = new ArrayList<Player>();
+	//	ArrayList<Player> league = new ArrayList<Player>();
 		for(int i = 0; i < 50; i++)
 		{
 			Player player = new Player();

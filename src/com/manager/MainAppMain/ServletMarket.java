@@ -1,6 +1,8 @@
 package com.manager.MainAppMain;
 
 import java.io.IOException;
+
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,6 +24,7 @@ public class ServletMarket extends HttpServlet
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+		ServletContext STM = getServletConfig().getServletContext();
 		Market market = (Market) getServletContext().getAttribute("market");
 		League league = (League) getServletContext().getAttribute("league");
 		ModelLoading ml = (ModelLoading) getServletContext().getAttribute("ModelLoading");
@@ -42,6 +45,10 @@ public class ServletMarket extends HttpServlet
 		request.setAttribute("defender", defender);//size
 		request.setAttribute("goalie", goalie);//size
 		request.setAttribute("youth", youth);//size
+		
+		STM.setAttribute("market", market);
+		STM.setAttribute("league", league);
+		STM.setAttribute("ModelLoading", ml);
 		request.getRequestDispatcher("JSP/market.jsp").forward(request, response);
 	}
 
