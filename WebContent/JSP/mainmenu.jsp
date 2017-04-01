@@ -39,6 +39,7 @@
 		<a class="clickMe" href="Market"> Market </a> 
 	 	<a class="clickMe" href="Team"> View Teams </a>
 	 	<a class="clickMe" href="ViewFixtures"> View Fixtures </a>
+	 	<a class="clickMe" href="NextFixture"> Next Fixture </a>
 	  </div>
 	  <br>
 	  	<table border = "1px">
