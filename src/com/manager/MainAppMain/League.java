@@ -1,5 +1,6 @@
 package com.manager.MainAppMain;
 
+import java.io.IOException;
 import java.util.*;
 
 public class League 
@@ -9,6 +10,7 @@ public class League
 	private int maxNoGames = 12;
 	private int maxNoHomeGames = 3;
 	private int currentTeam = 0;
+	
 	ArrayList<Team> allTeams = new ArrayList<Team>();
 	League(Market market)
 	{
@@ -59,20 +61,28 @@ public class League
 		allTeams.add(usersTeam);
 	}
 	
-	/*public static void main(String[] args)
+	public static void viewSchedule()
 	{
-		Market market = new Market();
-		League league = new League(market);
-		for(int i = 0; i < league.allTeams.size(); i++)
-		{
-			for(int j = 0; j < league.allTeams.get(i).matches.size(); j++)
+		Market market;
+		try {
+			market = new Market(Market.makeNames(Constants.namesFilePath));
+			League league = new League(market);
+			for(int i = 0; i < league.allTeams.size(); i++)
 			{
-				System.out.println("Team " + league.allTeams.get(i).getId() + " VS Team " + league.allTeams.get(i).matches.get(j));
+				for(int j = 0; j < league.allTeams.get(i).matches.size(); j++)
+				{
+					System.out.println("Team " + league.allTeams.get(i).getId() + " VS Team " + league.allTeams.get(i).matches.get(j));
+				}
 			}
+		} catch (IOException e) {
+
+			e.printStackTrace();
 		}
 	}
-	*/
-	
+	public static void main(String[] args)
+	{
+		viewSchedule();
+	}
 	//getter and setters
 	public int getMaxNoHomeGames() {
 		return maxNoHomeGames;
