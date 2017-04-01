@@ -20,6 +20,10 @@ public class Player
 	private int growth;
 	private int injuryRisk ; 
 	private String ageGroup;
+	private int exp;
+
+	
+	
 	
 	Player() throws IOException
 	{		
@@ -54,8 +58,7 @@ public class Player
 			positionDeterminator();
 			setAgeGroup(Constants.experienced);
 		}
-		this.setCost(this.getCost() * this.getOverall()/100);
-		
+		this.setCost(this.getCost() * this.getOverall()/100);	
 	}
 	public void positionDeterminator()
 	{
@@ -110,6 +113,24 @@ public class Player
 				setCost(getCost()+50000);
 			}
 			return;
+		}
+	}
+	public void levelUp()
+	{
+		System.out.println(this.getName() + " has leveled up");
+		this.setExp(0);
+	}
+	public void reprisal()
+	{
+		Random r = new Random();
+		int chance = r.nextInt(100);		
+		if (chance < 34)
+		{
+			this.setExp(this.getExp()+1);
+			if(this.getExp() >= 2)
+			{
+				this.levelUp();
+			}
 		}
 	}
 	public void printStats()
@@ -211,6 +232,13 @@ public class Player
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public int getExp() {
+		return exp;
+	}
+	public void setExp(int exp) {
+		this.exp = exp;
 	}
 	
 	public static void main(String[] args) throws IOException

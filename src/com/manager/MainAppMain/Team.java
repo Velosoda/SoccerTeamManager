@@ -9,14 +9,16 @@ public class Team
 	private  int StadiumSize = Constants.teamStadiumSize; //10,000
 	private  int GoalieStarterLimit = Constants.teamGoalieStarterLimit;
 	private  int DefenderStarterLimit = Constants.teamDefenderStarterLimit; 
-	private  int MidfieldStarterLimit = Constants.teamMidfieldStarterLimit;
 	private  int AttackerStarterLimit = Constants.teamAttackerStarterLimit; 
 	private  int goalieCount;
 	private  int defenderCount;
+	private  int MidfieldStarterLimit = Constants.teamMidfieldStarterLimit;
 	private  int midfieldCount;
 	private  int attackerCount;
 	private  int benchMax = Constants.teamBenchLimit;
 	private int points = 0;
+	private int goals = 0;
+
 	//ID*************************
 	private int id;
 	ArrayList<Player> teamStarters = new ArrayList<Player> ();
@@ -169,6 +171,13 @@ public class Team
 	}
 	public void setPoints(int points) {
 		this.points = points;
+	}
+	public int getGoals() {
+		return goals;
+	}
+
+	public void setGoals(int goals) {
+		this.goals = goals;
 	}
 }
 /*{
