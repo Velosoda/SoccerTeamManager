@@ -75,5 +75,38 @@
 				</c:forEach>
 			</tbody>
 		</table>
+		<table border = "1px">
+	  	<caption>Your Bench</caption>
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Age</th>
+					<th>AgeGroup</th>
+					<th>Attack</th>
+					<th>Midfield</th>
+					<th>Defense</th>
+					<th>Goalie</th>
+					<th>Position</th>
+					<th>Overall</th>
+					<th>Cost</th>
+				<tr>
+			</thead>
+			<tbody>
+				<c:forEach var="teamBench"  items= "${teamBench}">
+					<tr>
+						<td><c:out value="${teamBench.name}"></c:out>
+						<td><c:out value="${teamBench.age}"/></td>
+						<td><c:out value="${teamBench.ageGroup}"/></td>
+						<td><c:out value="${teamBench.attackSkill}"/></td>
+						<td><c:out value="${teamBench.midfieldSkill}"/></td>
+						<td><c:out value="${teamBench.defenseSkill}"/></td>
+						<td><c:out value="${teamBench.goalieSkill}"/></td>
+						<td><c:out value="${teamBench.naturalPosition}"/></td>
+						<td><c:out value="${teamBench.overall}"/></td>
+						<td><c:out value="${teamBench.cost}"/></td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
 	</body>
 </html>

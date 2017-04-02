@@ -5,17 +5,36 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>SMG-Player Market</title>
+		<title>Player Market</title>
+	    <style type="text/css">
+		#selectedItems
+		{
+		  float: right;
+		  padding: 1px;
+		  width:39%;
+		}
+		#marketTable
+		{
+		  float: left;
+		  width: 60%;
+		}
+		table {
+		    font-family: arial, sans-serif;
+		    border-collapse: collapse;
+		}
+		
+		td, th {
+		    border: 1px solid #dddddd;
+		    text-align: left;
+		}
+		</style>
 	</head>
 	<body>
-		<!-- 
-			<p>There are ${attacker} attackers </p>
-			<p>There are ${midfielder} midfielders</p>
-			<p>There are ${defender} defenders</p>
-			<p>There are ${goalie} goalies</p>
-			<p>There are ${youth} youth players</p> 
-		-->
-		<table border = "1px">
+		<p>The size of the market is ${marketSize}</p>
+		<p>Please Select 2 Attackers, 4 Midfielders, 4 Defenders, and 1 Goalie</p>
+		<p>${error}</p>
+		<table id="marketTable">
+		<caption>Market</caption>
 			<thead>
 				<tr>
 					<th>Name</th>
@@ -28,6 +47,7 @@
 					<th>Position</th>
 					<th>Overall</th>
 					<th>Cost</th>
+					<th>Select</th>
 				<tr>
 			</thead>
 			<tbody>
@@ -43,9 +63,122 @@
 						<td><c:out value="${totalMarket.naturalPosition}"/></td>
 						<td><c:out value="${totalMarket.overall}"/></td>
 						<td><c:out value="${totalMarket.cost}"/></td>
+						<td>
+							<form action = "MarketHandler" method = "POST">
+								<input type = "hidden" name = "selectedPlayers" value = "${totalMarket.name}"/>
+								<input type = "hidden" name = "selectedPlayerPosition" value = "${totalMarket.naturalPosition}"/>
+								<input type = "submit" name = "progression" value = "Add Player"/>
+							</form>
+						</td>
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
+		<table id = "selectedItems">
+		<caption>Selected Items</caption>
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Position</th>
+					<th>Overall</th>
+					<th>Cost</th>
+					<th>Remove</th>
+				<tr>
+			</thead>
+			<tbody>
+				<c:forEach var="selectedPFM"  items= "${selectedPFM}">
+					<tr>
+						<td><c:out value="${selectedPFM.name}"></c:out>
+						<td><c:out value="${selectedPFM.naturalPosition}"/></td>
+						<td><c:out value="${selectedPFM.overall}"/></td>
+						<td><c:out value="${selectedPFM.cost}"/></td>
+						<td>	
+							<form action = "MarketHandler" method = "POST">
+								<input type = "hidden" name = "selectedPlayers" value = "${selectedPFM.name}"/>
+								<input type = "hidden" name = "selectedPlayerPosition" value = "${selectedPFM.naturalPosition}"/>
+								<input type = "submit" name = "progression" value = "Sell"/>
+							</form>
+						</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+		<form action="MarketHandler" method="post"> 
+			<input type = "hidden" name = "realTotalCost" value = "${realTotalCost}"/>
+			<input type = "hidden" name = "realBudget" value = "${realBudget}"/>
+			<input type = "hidden" name = "realBudgetIfPurchase" value = "${realBudgetIfPurchase}"/> 
+			<input type = "submit" name = "progression" value = "Confirm Purchase"/>
+		</form>
+		<table id = "selectedItems">
+		<caption>Team Starters</caption>
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Position</th>
+					<th>Overall</th>
+					<th>Cost</th>
+					<th>Remove</th>
+				<tr>
+			</thead>
+			<tbody>
+				<c:forEach var="userTeam"  items= "${userTeam}">
+					<tr>
+						<td><c:out value="${userTeam.name}"></c:out>
+						<td><c:out value="${userTeam.naturalPosition}"/></td>
+						<td><c:out value="${userTeam.overall}"/></td>
+						<td><c:out value="${userTeam.cost}"/></td>
+						<td>	
+							<form action = "MarketHandler" method = "POST">
+								<input type = "hidden" name = "selectedPlayers" value = "${userTeam.name}"/>
+								<input type = "hidden" name = "selectedPlayerPosition" value = "${userTeam.naturalPosition}"/>
+								<input type = "hidden" name = "realTotalCost" value = "${realTotalCost}"/>
+								<input type = "hidden" name = "realBudget" value = "${realBudget}"/>
+								<input type = "hidden" name = "realBudgetIfPurchase" value = "${realBudgetIfPurchase}"/> 
+								<input type = "submit" name = "progression" value = "Sell"/>
+							</form>
+						</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+		<form action="MarketHandler" method="post"> 
+
+			<input type = "submit" name = "progression" value = "Confirm Purchase"/>
+		</form>
+		<table id = "selectedItems">
+		<caption>Team Bench</caption>
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Position</th>
+					<th>Overall</th>
+					<th>Cost</th>
+					<th>Remove</th>
+				<tr>
+			</thead>
+			<tbody>
+				<c:forEach var="teamBench"  items= "${teamBench}">
+					<tr>
+						<td><c:out value="${teamBench.name}"></c:out>
+						<td><c:out value="${teamBench.naturalPosition}"/></td>
+						<td><c:out value="${teamBench.overall}"/></td>
+						<td><c:out value="${teamBench.cost}"/></td>
+						<td>	
+							<form action = "MarketHandler" method = "POST">
+								<input type = "hidden" name = "selectedPlayers" value = "${teamBench.name}"/>
+								<input type = "hidden" name = "selectedPlayerPosition" value = "${teamBench.naturalPosition}"/>
+								<input type = "hidden" name = "realTotalCost" value = "${realTotalCost}"/>
+								<input type = "hidden" name = "realBudget" value = "${realBudget}"/>
+								<input type = "hidden" name = "realBudgetIfPurchase" value = "${realBudgetIfPurchase}"/> 
+								<input type = "submit" name = "progression" value = "Sell"/>
+							</form>
+						</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+		<p>Total = ${totalCost}</p> <!-- total cost of this (^) selection -->
+		<p>Your Budget = ${budget}</p>
+		<p>Budget After Purchase = ${budgetIfPurchase}</p> <!-- What will the budget be after purchase -->
 	</body>
 </html>
