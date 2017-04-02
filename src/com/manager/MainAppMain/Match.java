@@ -221,17 +221,29 @@ public class Match {
 	}
 	public static void main(String[] args) throws IOException
 	{
-//		Match match = new Match(league.allTeams.get(1), league.allTeams.get(2));
-//		System.out.println(match.winner.getId());
+
 		Market market = new Market(Market.makeNames(Constants.namesFilePath));
 		League league = new League(market);
 		League.viewSchedule();
 		Match match = new Match();
-		for(int i = 0; i < 6; i++)
+		
+		System.out.println("**************Team 1***********************");
+		league.allTeams.get(0).printAllstats();
+		System.out.println("*******************Team 2**************");
+		league.allTeams.get(1).printAllstats();
+		
+		for(int i = 0; i < 1 ; i++)
 		{
-			System.out.println("Match day " + (i+1));
-			match.matchDayMatchups(league);
+			match.playerEvaluation(league.allTeams.get(0), league.allTeams.get(1));
+			match.playMatch(league.allTeams.get(0), league.allTeams.get(1));
+			
 		}
+		
+		System.out.println("******************Team 1***************");
+		league.allTeams.get(0).printAllstats();
+		System.out.println("*********************Team 2****************");
+		league.allTeams.get(1).printAllstats();
+		
 	}
 	
 	public Team getLoser() {

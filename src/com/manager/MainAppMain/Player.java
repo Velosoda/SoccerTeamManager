@@ -20,9 +20,6 @@ public class Player
 	private int injuryRisk ; 
 	private String ageGroup;
 	private int exp;
-
-	
-	
 	
 	Player() throws IOException
 	{		
@@ -116,17 +113,35 @@ public class Player
 	}
 	public void levelUp()
 	{
+		if(this.naturalPosition == Constants.attacker)
+		{
+			setAttackSkill(getAttackSkill() + 1);
+		}
+		if(this.naturalPosition == Constants.defender)
+		{
+			setDefenseSkill(getDefenseSkill() + 1);
+		}
+		if(this.naturalPosition == Constants.midfielder)
+		{
+			setMidfieldSkill(getMidfieldSkill() + 1);
+		}
+		if(this.naturalPosition == Constants.goalie)
+		{
+			setGoalieSkill(getGoalieSkill() + 1);
+		}
 		System.out.println(this.getName() + " has leveled up");
 		this.setExp(0);
 	}
 	public void reprisal()
 	{
 		Random r = new Random();
-		int chance = r.nextInt(100);		
-		if (chance < 34)
+		int chance = r.nextInt(100);
+		System.out.println("Random in reprisal is " + chance);
+		if (chance < 20)
 		{
+			
 			this.setExp(this.getExp()+1);
-			if(this.getExp() >= 2)
+			if(this.getExp() == 3)
 			{
 				this.levelUp();
 			}
