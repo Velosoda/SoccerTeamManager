@@ -9,47 +9,35 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/Market")//declaring the name of the servlet
-public class ServletMarket extends HttpServlet 
-{
+@WebServlet("/Market")
+public class ServletMarket extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-    public ServletMarket()
+       
+    public ServletMarket() 
     {
         super();
     }
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		doPost(request, response); 
+		doPost(request,response);
 	}
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		ServletContext STM = getServletConfig().getServletContext();
-		Market market = (Market) getServletContext().getAttribute("market");
-		League league = (League) getServletContext().getAttribute("league");
-		ModelLoading ml = (ModelLoading) getServletContext().getAttribute("ModelLoading");
-		int attacker = market.marketAttacker.size();
-		int midfielder = market.marketMidfielder.size();
-		int defender = market.marketDefender.size();
-		int goalie = market.marketGoalie.size();
-		int youth = market.marketYouth.size();
+		Market market = (Market)STM.getAttribute("market");
+		League league = (League)STM.getAttribute("league");
+		ModelLoading ml = (ModelLoading)STM.getAttribute("ModelLoading");
 		
-		System.out.println("TotalMarket size "+ ml.totalMarket.size());
-		for(int i = 0; i < ml.totalMarket.size(); i++)
-		{
-			ml.totalMarket.get(i).printStats();
-		}
 		request.setAttribute("totalMarket", ml.totalMarket);
-		request.setAttribute("attacker", attacker);//size
-		request.setAttribute("midfielder", midfielder);//size
-		request.setAttribute("defender", defender);//size
-		request.setAttribute("goalie", goalie);//size
-		request.setAttribute("youth", youth);//size
+		request.setAttribute("marketSize", ml.totalMarket.size());
+		request.setAttribute("userTeam", league.allTeams.get(Constants.userTeamId).teamStarters);
+		request.setAttribute("teamBench", league.allTeams.get(Constants.userTeamId).teamBench);
 		
 		STM.setAttribute("market", market);
-		STM.setAttribute("league", league);
+		STM.setAttribute("league", league); 
 		STM.setAttribute("ModelLoading", ml);
-		request.getRequestDispatcher("JSP/market.jsp").forward(request, response);
+		
+		request.getRequestDispatcher("/JSP/market.jsp").forward(request, response);
 	}
-
 }
