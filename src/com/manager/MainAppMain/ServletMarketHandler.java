@@ -14,9 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ServletMarketHandler extends HttpServlet 
 {
 	private static final long serialVersionUID = 1L;
-	
-	ArrayList<Player> positionalArray; 
-	double totalCost = 0.0;
+	String error = "";
 	
     public ServletMarketHandler()
     {
@@ -38,185 +36,195 @@ public class ServletMarketHandler extends HttpServlet
 		String selectedPlayerName = request.getParameter("selectedPlayers");
 		String selectedPlayerPosition = request.getParameter("selectedPlayerPosition");
 		String progression = request.getParameter("progression");
+		Team userTeam = league.allTeams.get(Constants.userTeamId);
+		
+		//all the arrays that will be manipulated
+		ArrayList<Player> selectedPFM = league.allTeams.get(Constants.userTeamId).selectedPFM;
+		ArrayList<Player> teamStarters = league.allTeams.get(Constants.userTeamId).teamStarters;
+		ArrayList<Player> teamBench = league.allTeams.get(Constants.userTeamId).teamBench;
 		
 		if(progression.equals("Confirm Purchase"))
 		{
-			//load in budgets and other financial stats and check for negative balances
-			Double budgetIfPurchase = Double.parseDouble(request.getParameter("realBudgetIfPurchase"));
-			Double totalCost = Double.parseDouble(request.getParameter("realTotalCost"));
-			Double budget = Double.parseDouble(request.getParameter("realBudget"));
-			System.out.println("budgetIfPurchase : " + budgetIfPurchase);
-			System.out.println("totalCost : " + totalCost);
-			System.out.println("budget : " + budget);
-			ArrayList<Player> selectedPFM = league.allTeams.get(Constants.userTeamId).selectedPFM;
-			Team userTeam = league.allTeams.get(Constants.userTeamId);
-			
-			if(budgetIfPurchase < 0)
+			for(int i = 0; i < selectedPFM.size(); i++)
 			{
-				String error = "Your balance cannot be negative!";
-				request.setAttribute("error", error);
-				request.setAttribute("totalMarket", ml.totalMarket);
+				teamBench.add(selectedPFM.get(i));
+				selectedPFM.remove(i);
+			}
+			
+			//cant Afford clause
+			if(userTeam.getCostOfPFM() > userTeam.getBudget())
+			{
+				error = "You Can not afford these players";
+				
+				//return to the market with everything intact
+				request.setAttribute("teamStarters", teamStarters);
+				request.setAttribute("teamBench", teamBench);
 				request.setAttribute("selectedPFM", selectedPFM);
+				request.setAttribute("totalMarket", ml.totalMarket);
+				request.setAttribute("error", error);
+				//budgets
+				request.setAttribute("budget", Constants.format.format(userTeam.getBudget()));
+				request.setAttribute("totalCostOfPurchase", Constants.format.format(userTeam.getCostOfPFM()));
+				request.setAttribute("budgetIfPurchased", Constants.format.format(userTeam.getBudget() - userTeam.getCostOfPFM()));
 				
-				//send non formated budgets
-				request.setAttribute("realBudgetIfPurchase", budgetIfPurchase);
-				request.setAttribute("realTotalCost", totalCost);
-				request.setAttribute("realBudget", Constants.teamBudget);
-				
-				//send formated budgets
-				request.setAttribute("totalCost", Constants.format.format(totalCost));
-				request.setAttribute("budget", Constants.format.format(Constants.teamBudget));					
-				request.setAttribute("budgetIfPurchase", Constants.format.format(budgetIfPurchase));
-				
+				STM.setAttribute("market", market);
+				STM.setAttribute("league", league); 
+				STM.setAttribute("ModelLoading", ml);
 				request.getRequestDispatcher("/JSP/market.jsp").forward(request, response);
 				return;
 			}
-			for(int i = 0; i < selectedPFM.size(); i++)
+			//can afford clause
+			else
 			{
-				userTeam.teamBench.add(selectedPFM.get(i));
+				//subtract the cost of the player
+				userTeam.setBudget(userTeam.getBudget()-userTeam.getCostOfPFM());
+				
+				//reset the CostofPFM var
+				userTeam.setCostOfPFM(0);
+				
+				request.setAttribute("budget", Constants.format.format(userTeam.getBudget()));
+				request.setAttribute("totalCostOfPurchase", Constants.format.format(userTeam.getCostOfPFM()));
+				request.setAttribute("budgetIfPurchased", Constants.format.format(userTeam.getBudget() - userTeam.getCostOfPFM()));
+				request.setAttribute("teamStarters", teamStarters);
+				request.setAttribute("teamBench", teamBench);
+				STM.setAttribute("market", market);
+				STM.setAttribute("league", league); 
+				STM.setAttribute("ModelLoading", ml);
+				request.getRequestDispatcher("/JSP/mainmenu.jsp").forward(request, response);
+				return;
 			}
-			userTeam.selectedPFM.clear();
-			request.setAttribute("teamBench", userTeam.teamBench);
-			request.getRequestDispatcher("/JSP/mainmenu.jsp").forward(request, response);
-			return;
-		}
-		
-		//test params 
-		System.out.println("name : " + selectedPlayerName);
-		System.out.println("position : " + selectedPlayerPosition);
-		System.out.println("progression : " + progression);
-		
-		//choose the positional arraylist
-		try
-		{
-			if(selectedPlayerPosition.equals(Constants.attacker))
-			{
-				positionalArray = market.marketAttacker;
-				System.out.println("Positional array : Attack");
-			}
-			if(selectedPlayerPosition.equals(Constants.midfielder))
-			{
-				positionalArray = market.marketMidfielder;
-				System.out.println("Positional array : Midfielder");
-			}
-			if(selectedPlayerPosition.equals(Constants.defender))
-			{
-				positionalArray = market.marketDefender;
-				System.out.println("Positional array : Defender");
-			}
-			if(selectedPlayerPosition.equals(Constants.goalie))
-			{
-				positionalArray = market.marketGoalie;
-				System.out.println("Positional array : Goalie");
-			}	
-		}
-		catch(Exception e)
-		{
 
 		}
-		
-		//determines whether the user hit remove
-		if(progression.equals("Sell"))
+		if(progression.equals("Add to Cart"))
 		{
-			ArrayList<Player> teamStarters = league.allTeams.get(Constants.userTeamId).teamStarters;
-			for(int i = 0; i < teamStarters.size(); i++)
-			{
-				if(teamStarters.get(i).getName().equals(selectedPlayerName))
-				{
-					System.out.println("index of item to remove : " + i);
-					System.out.println("size of SelectedPFM Beginning: " + teamStarters.size());
-					
-					//add removed player to the total market and the positional array
-					ml.totalMarket.add(teamStarters.get(i));
-					positionalArray.add(teamStarters.get(i));
-					System.out.println("Added to Total Market and Positional Array : " + teamStarters.get(i).getName());
-					
-					//should update cost
-					totalCost = totalCost - teamStarters.get(i).getCost();
-					double budget = Constants.teamBudget;
-					double budgetAfterPurchase = budget - totalCost; 
-					//remove from selectedPFM
-					teamStarters.remove(i);
-					
-					//send new selectedPFM to request
-					request.setAttribute("selectedPFM", teamStarters);
-					
-					//not sure if necessary but going to keep out of fear
-					STM.setAttribute("market", market);
-					STM.setAttribute("league", league);
-					STM.setAttribute("ModelLoading", ml);
-					
-					//send market
-					request.setAttribute("totalMarket", ml.totalMarket);
-					request.setAttribute("marketSize", ml.totalMarket.size());
-					
-					//send non formated budgets
-					request.setAttribute("realBudgetIfPurchase", budgetAfterPurchase);
-					request.setAttribute("realTotalCost", totalCost);
-					request.setAttribute("realBudget", Constants.teamBudget);
-					
-					//send formated budgets
-					request.setAttribute("totalCost", Constants.format.format(totalCost));
-					request.setAttribute("budget", Constants.format.format(Constants.teamBudget));					
-					request.setAttribute("budgetIfPurchase", Constants.format.format(budgetAfterPurchase));
-					
-					request.getRequestDispatcher("/JSP/market.jsp").forward(request, response);
-					System.out.println("go back to initusersetup");
-					System.out.println("size of SelectedPFM End: " + teamStarters.size());
-					return;
-				}
-				else
-				{
-					System.out.println("name not found");
-				}
-			}
-		}
-		
-		if(progression.equals("Add Player"))
-		{
-			//search for player in total arraylist to remove them
 			for(int i = 0; i < ml.totalMarket.size(); i++)
 			{
 				if(ml.totalMarket.get(i).getName().equals(selectedPlayerName))
 				{
-					ml.totalMarket.remove(i);
+					Player selectedPlayer = ml.totalMarket.get(i); 
+					
+					//add to selectedPFM and take it out of the market
+					selectedPFM.add(selectedPlayer);
+					ml.totalMarket.remove(selectedPlayer);
+					
+					//budget control here
+					userTeam.setCostOfPFM(userTeam.getCostOfPFM()+selectedPlayer.getCost());
+					
+					//Server commands
+					//arraylists
+					request.setAttribute("teamStarters", teamStarters);
+					request.setAttribute("teamBench", teamBench);
+					request.setAttribute("selectedPFM", selectedPFM);
+					request.setAttribute("totalMarket", ml.totalMarket);
+					//budgets
+					request.setAttribute("budget", Constants.format.format(userTeam.getBudget()));
+					request.setAttribute("totalCostOfPurchase", Constants.format.format(userTeam.getCostOfPFM()));
+					request.setAttribute("budgetIfPurchased", Constants.format.format(userTeam.getBudget() - userTeam.getCostOfPFM()));
+					
+					//context
+					STM.setAttribute("market", market);
+					STM.setAttribute("league", league); 
+					STM.setAttribute("ModelLoading", ml);
+					request.getRequestDispatcher("/JSP/market.jsp").forward(request, response);
+					return;
 				}
 			}
-			
-			//search for player in positional arraylist to add them to the selection array
-			for(int i = 0; i < positionalArray.size(); i++)
+		}
+		//Removing from SelectedPFM
+		if(progression.equals("Remove"))
+		{
+			for(int i = 0; i < selectedPFM.size(); i++)
 			{
-				if(positionalArray.get(i).getName().equals(selectedPlayerName))
+				if(selectedPFM.get(i).getName().equals(selectedPlayerName))
 				{
-					league.allTeams.get(3).selectedPFM.add(positionalArray.get(i));
-					request.setAttribute("selectedPFM", league.allTeams.get(3).selectedPFM);
-					totalCost = totalCost +  positionalArray.get(i).getCost();
-					positionalArray.remove(i);
+					Player selectedPlayer = selectedPFM.get(i); 
+					//remove from cart
+					ml.totalMarket.add(selectedPlayer);
+					selectedPFM.remove(i);
+					
+					//budget control here
+					userTeam.setCostOfPFM(userTeam.getCostOfPFM()-selectedPlayer.getCost());
+					
+					//Server commands
+					//arraylists
+					request.setAttribute("teamStarters", teamStarters);
+					request.setAttribute("teamBench", teamBench);
+					request.setAttribute("selectedPFM", selectedPFM);
+					request.setAttribute("totalMarket", ml.totalMarket);
+					//budgets
+					request.setAttribute("budget", Constants.format.format(userTeam.getBudget()));
+					request.setAttribute("totalCostOfPurchase", Constants.format.format(userTeam.getCostOfPFM()));
+					request.setAttribute("budgetIfPurchased", Constants.format.format(userTeam.getBudget() - userTeam.getCostOfPFM()));
+					
+					//context
+					STM.setAttribute("market", market);
+					STM.setAttribute("league", league); 
+					STM.setAttribute("ModelLoading", ml);
+					request.getRequestDispatcher("/JSP/market.jsp").forward(request, response);
+					return;				
 				}
 			}
-			
-			//calculate budgetAfterPurchase
-			double budgetAfterPurchase = Constants.teamBudget - totalCost;
-			
-			//not sure if necessary but going to keep out of fear
-			STM.setAttribute("market", market);
-			STM.setAttribute("league", league);
-			STM.setAttribute("ModelLoading", ml);
-			
-			//send manipulated vars to the request so the view can use it 
-			request.setAttribute("totalMarket", ml.totalMarket);
-			request.setAttribute("realBudgetIfPurchase", budgetAfterPurchase);
-			request.setAttribute("realTotalCost", totalCost);
-			request.setAttribute("realBudget", Constants.teamBudget);
-			request.setAttribute("totalCost", Constants.format.format(totalCost));
-			request.setAttribute("budgetIfPurchase", Constants.format.format(budgetAfterPurchase));
-			request.setAttribute("budget", Constants.format.format(Constants.teamBudget));
-			request.setAttribute("marketSize", ml.totalMarket.size());
-			request.setAttribute("userTeam", league.allTeams.get(Constants.userTeamId).teamStarters);
-			request.setAttribute("teamBench", league.allTeams.get(Constants.userTeamId).teamBench);
-			System.out.println();
-			request.getRequestDispatcher("/JSP/market.jsp").forward(request, response);
-			return;
+		}
+		//Sell from Bench or Starters 
+		if(progression.equals("Sell"))
+		{
+			for(int i = 0; i < teamStarters.size(); i++)
+			{
+				if(teamStarters.get(i).getName().equals(selectedPlayerName))
+				{
+					Player selectedPlayer = teamStarters.get(i); 
+					
+					//remove from Starters
+					ml.totalMarket.add(selectedPlayer);
+					teamStarters.remove(i);
+					
+					//budget control here
+					userTeam.setBudget(userTeam.getBudget()+selectedPlayer.getCost());
+					
+					//Server commands
+					request.setAttribute("teamStarters", teamStarters);
+					request.setAttribute("teamBench", teamBench);
+					request.setAttribute("selectedPFM", selectedPFM);
+					request.setAttribute("totalMarket", ml.totalMarket);
+					//budgets
+					request.setAttribute("budget", Constants.format.format(userTeam.getBudget()));
+					request.setAttribute("totalCostOfPurchase", Constants.format.format(userTeam.getCostOfPFM()));
+					request.setAttribute("budgetIfPurchased", Constants.format.format(userTeam.getBudget() - userTeam.getCostOfPFM()));
+					
+					STM.setAttribute("market", market);
+					STM.setAttribute("league", league); 
+					STM.setAttribute("ModelLoading", ml);
+					request.getRequestDispatcher("/JSP/market.jsp").forward(request, response);
+					return;					
+				}
+			}
+			for(int i = 0; i < teamBench.size(); i++)
+			{
+				if(teamBench.get(i).getName().equals(selectedPlayerName))
+				{
+					Player selectedPlayer = teamBench.get(i); 
+					
+					//remove from Starters
+					ml.totalMarket.add(selectedPlayer);
+					teamStarters.remove(i);
+					
+					//budget control here
+					userTeam.setBudget(userTeam.getBudget()+selectedPlayer.getCost());
+					
+					//Server commands
+					request.setAttribute("teamStarters", teamStarters);
+					request.setAttribute("teamBench", teamBench);
+					request.setAttribute("selectedPFM", selectedPFM);
+					request.setAttribute("totalMarket", ml.totalMarket);
+					//budgets
+					request.setAttribute("budget", userTeam.getBudget());
+					STM.setAttribute("market", market);
+					STM.setAttribute("league", league); 
+					STM.setAttribute("ModelLoading", ml);
+					request.getRequestDispatcher("/JSP/market.jsp").forward(request, response);
+					return;					
+				}
+			}
 		}
 	}
 }

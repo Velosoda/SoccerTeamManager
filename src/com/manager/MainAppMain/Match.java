@@ -228,9 +228,9 @@ public class Match {
 		Match match = new Match();
 		
 		System.out.println("**************Team 1***********************");
-		league.allTeams.get(0).printAllstats();
+		//league.allTeams.get(0).printAllstats();
 		System.out.println("*******************Team 2**************");
-		league.allTeams.get(1).printAllstats();
+		//league.allTeams.get(1).printAllstats();
 		
 		for(int i = 0; i < 1 ; i++)
 		{
@@ -240,9 +240,9 @@ public class Match {
 		}
 		
 		System.out.println("******************Team 1***************");
-		league.allTeams.get(0).printAllstats();
+		//league.allTeams.get(0).printAllstats();
 		System.out.println("*********************Team 2****************");
-		league.allTeams.get(1).printAllstats();
+		//league.allTeams.get(1).printAllstats();
 		
 	}
 	

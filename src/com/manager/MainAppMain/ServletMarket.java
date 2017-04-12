@@ -29,10 +29,16 @@ public class ServletMarket extends HttpServlet {
 		League league = (League)STM.getAttribute("league");
 		ModelLoading ml = (ModelLoading)STM.getAttribute("ModelLoading");
 		
+		//misc
+		Team userTeam = league.allTeams.get(Constants.userTeamId);
+		
 		request.setAttribute("totalMarket", ml.totalMarket);
 		request.setAttribute("marketSize", ml.totalMarket.size());
-		request.setAttribute("userTeam", league.allTeams.get(Constants.userTeamId).teamStarters);
+		request.setAttribute("teamStarters", league.allTeams.get(Constants.userTeamId).teamStarters);
 		request.setAttribute("teamBench", league.allTeams.get(Constants.userTeamId).teamBench);
+		request.setAttribute("budget", Constants.format.format(userTeam.getBudget()));
+		request.setAttribute("totalCostOfPurchase", Constants.format.format(userTeam.getCostOfPFM()));
+		request.setAttribute("budgetIfPurchased", Constants.format.format(userTeam.getBudget() - userTeam.getCostOfPFM()));
 		
 		STM.setAttribute("market", market);
 		STM.setAttribute("league", league); 

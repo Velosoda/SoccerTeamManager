@@ -35,7 +35,6 @@ public class ServletNextFixture extends HttpServlet {
 		//set up match day schedule
 		newMatchDay.matchDayMatchups(league);
 		
-		
 		//player Evaluations 
 		newMatchDay.playerEvaluation(league.allTeams.get(newMatchDay.getMatch1_1()), league.allTeams.get(newMatchDay.getMatch1_2()));
 		newMatchDay.playerEvaluation(league.allTeams.get(newMatchDay.getMatch2_1()), league.allTeams.get(newMatchDay.getMatch2_2()));

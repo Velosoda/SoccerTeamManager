@@ -43,6 +43,9 @@ public class ServletLoading extends HttpServlet
 		Market market = new Market(namesList);
 		League league = new League(market); 
 		
+		//misc
+		Team userTeam = league.allTeams.get(Constants.userTeamId);
+		
 		//get players and add them to the total market
 		ModelLoading ml = new ModelLoading();
 		ml.fillTotalMarket(market.marketAttacker);
@@ -59,9 +62,23 @@ public class ServletLoading extends HttpServlet
 		//send market to request
 		request.setAttribute("totalMarket", ml.totalMarket);
 		request.setAttribute("marketSize", ml.totalMarket.size());
-
+		request.setAttribute("teamStarters", league.allTeams.get(Constants.userTeamId).teamStarters);
+		
+		//budget 
+		request.setAttribute("budget", Constants.format.format(userTeam.getBudget()));
+		request.setAttribute("totalCostOfPurchase", Constants.format.format(userTeam.getCostOfPFM()));
+		request.setAttribute("budgetIfPurchased", Constants.format.format(userTeam.getBudget() - userTeam.getCostOfPFM()));
+		
 		//go to main menu
-		request.getRequestDispatcher("/JSP/initUserSetup.jsp").forward(request, response);
-		//request.getRequestDispatcher("/JSP/mainmenu.jsp").forward(request, response);
+		if(Constants.userTeamAutoFill == 0)
+		{
+			request.getRequestDispatcher("/JSP/mainmenu.jsp").forward(request, response);
+			return;
+		}
+		else
+		{
+			request.getRequestDispatcher("/JSP/initUserSetup.jsp").forward(request, response);
+			return;
+		}
 	}
 }

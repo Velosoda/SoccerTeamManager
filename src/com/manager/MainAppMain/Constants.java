@@ -68,4 +68,5 @@ public class Constants
 	//***********************************************************************************************************************
 	//GAME VARS	
 	public static String namesFilePath = "WebContent/names.txt";
+	public static int userTeamAutoFill = 0; // test mode
 }

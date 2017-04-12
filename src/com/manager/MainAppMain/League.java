@@ -56,9 +56,20 @@ public class League
 			newTeam.setId(i);
 			allTeams.add(newTeam);	
 		}
-		Team usersTeam = new Team("user");
-		usersTeam.setId(Constants.leagueMaxTeams-1);
-		allTeams.add(usersTeam);
+		//add autofill team
+		if(Constants.userTeamAutoFill == 0)
+		{
+			Team usersTeam = new Team(market);
+			usersTeam.setId(Constants.leagueMaxTeams-1);
+			allTeams.add(usersTeam);
+		}
+		//dont autofillTeam
+		else
+		{
+			Team usersTeam = new Team("user");
+			usersTeam.setId(Constants.leagueMaxTeams-1);
+			allTeams.add(usersTeam);
+		}
 	}
 	
 	public static void viewSchedule()

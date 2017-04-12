@@ -4,21 +4,20 @@ import java.util.ArrayList;
 
 public class Team 
 {
-	private  double Budget = Constants.teamBudget; //1,300,000
-	private  int StadiumSize = Constants.teamStadiumSize; //10,000
-	private  int GoalieStarterLimit = Constants.teamGoalieStarterLimit;
-	private  int DefenderStarterLimit = Constants.teamDefenderStarterLimit; 
-	private  int AttackerStarterLimit = Constants.teamAttackerStarterLimit; 
-	private  int goalieCount;
-	private  int defenderCount;
-	private  int MidfieldStarterLimit = Constants.teamMidfieldStarterLimit;
-	private  int midfieldCount;
-	private  int attackerCount;
-	private  int benchMax = Constants.teamBenchLimit;
+	private double Budget = Constants.teamBudget; //1,300,000
+	private int StadiumSize = Constants.teamStadiumSize; //10,000
+	private int GoalieStarterLimit = Constants.teamGoalieStarterLimit;
+	private int DefenderStarterLimit = Constants.teamDefenderStarterLimit; 
+	private int AttackerStarterLimit = Constants.teamAttackerStarterLimit; 
+	private int goalieCount;
+	private int defenderCount;
+	private int MidfieldStarterLimit = Constants.teamMidfieldStarterLimit;
+	private int midfieldCount;
+	private int attackerCount;
+	private int benchMax = Constants.teamBenchLimit;
 	private int points = 0;
 	private int goals = 0;
-
-	//ID*************************
+	private double costOfPFM = 0;
 	private int id;
 	ArrayList<Player> teamStarters = new ArrayList<Player> ();
 	ArrayList<Player> teamBench = new ArrayList<Player> (benchMax);
@@ -177,6 +176,14 @@ public class Team
 
 	public void setGoals(int goals) {
 		this.goals = goals;
+	}
+
+	public double getCostOfPFM() {
+		return costOfPFM;
+	}
+
+	public void setCostOfPFM(double costOfPFM) {
+		this.costOfPFM = costOfPFM;
 	}
 }
 /*{
