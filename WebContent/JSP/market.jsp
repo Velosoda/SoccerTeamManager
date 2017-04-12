@@ -32,7 +32,7 @@
 	<body>
 		<p>The size of the market is ${marketSize}</p>
 		<p>Please Select 2 Attackers, 4 Midfielders, 4 Defenders, and 1 Goalie</p>
-		<p>${error}</p>
+		<p color = "red">${error}</p>
 		<table id="marketTable">
 		<caption>Market</caption>
 			<thead>
@@ -67,7 +67,7 @@
 							<form action = "MarketHandler" method = "POST">
 								<input type = "hidden" name = "selectedPlayers" value = "${totalMarket.name}"/>
 								<input type = "hidden" name = "selectedPlayerPosition" value = "${totalMarket.naturalPosition}"/>
-								<input type = "submit" name = "progression" value = "Add Player"/>
+								<input type = "submit" name = "progression" value = "Add to Cart"/>
 							</form>
 						</td>
 					</tr>
@@ -75,7 +75,7 @@
 			</tbody>
 		</table>
 		<table id = "selectedItems">
-		<caption>Selected Items</caption>
+		<caption>Cart</caption>
 			<thead>
 				<tr>
 					<th>Name</th>
@@ -96,7 +96,7 @@
 							<form action = "MarketHandler" method = "POST">
 								<input type = "hidden" name = "selectedPlayers" value = "${selectedPFM.name}"/>
 								<input type = "hidden" name = "selectedPlayerPosition" value = "${selectedPFM.naturalPosition}"/>
-								<input type = "submit" name = "progression" value = "Sell"/>
+								<input type = "submit" name = "progression" value = "Remove"/>
 							</form>
 						</td>
 					</tr>
@@ -104,9 +104,6 @@
 			</tbody>
 		</table>
 		<form action="MarketHandler" method="post"> 
-			<input type = "hidden" name = "realTotalCost" value = "${realTotalCost}"/>
-			<input type = "hidden" name = "realBudget" value = "${realBudget}"/>
-			<input type = "hidden" name = "realBudgetIfPurchase" value = "${realBudgetIfPurchase}"/> 
 			<input type = "submit" name = "progression" value = "Confirm Purchase"/>
 		</form>
 		<table id = "selectedItems">
@@ -121,19 +118,16 @@
 				<tr>
 			</thead>
 			<tbody>
-				<c:forEach var="userTeam"  items= "${userTeam}">
+				<c:forEach var="teamStarters"  items= "${teamStarters}">
 					<tr>
-						<td><c:out value="${userTeam.name}"></c:out>
-						<td><c:out value="${userTeam.naturalPosition}"/></td>
-						<td><c:out value="${userTeam.overall}"/></td>
-						<td><c:out value="${userTeam.cost}"/></td>
+						<td><c:out value="${teamStarters.name}"></c:out>
+						<td><c:out value="${teamStarters.naturalPosition}"/></td>
+						<td><c:out value="${teamStarters.overall}"/></td>
+						<td><c:out value="${teamStarters.cost}"/></td>
 						<td>	
 							<form action = "MarketHandler" method = "POST">
-								<input type = "hidden" name = "selectedPlayers" value = "${userTeam.name}"/>
-								<input type = "hidden" name = "selectedPlayerPosition" value = "${userTeam.naturalPosition}"/>
-								<input type = "hidden" name = "realTotalCost" value = "${realTotalCost}"/>
-								<input type = "hidden" name = "realBudget" value = "${realBudget}"/>
-								<input type = "hidden" name = "realBudgetIfPurchase" value = "${realBudgetIfPurchase}"/> 
+								<input type = "hidden" name = "selectedPlayers" value = "${teamStarters.name}"/>
+								<input type = "hidden" name = "selectedPlayerPosition" value = "${teamStarters.naturalPosition}"/> 
 								<input type = "submit" name = "progression" value = "Sell"/>
 							</form>
 						</td>
@@ -141,10 +135,6 @@
 				</c:forEach>
 			</tbody>
 		</table>
-		<form action="MarketHandler" method="post"> 
-
-			<input type = "submit" name = "progression" value = "Confirm Purchase"/>
-		</form>
 		<table id = "selectedItems">
 		<caption>Team Bench</caption>
 			<thead>
@@ -167,9 +157,6 @@
 							<form action = "MarketHandler" method = "POST">
 								<input type = "hidden" name = "selectedPlayers" value = "${teamBench.name}"/>
 								<input type = "hidden" name = "selectedPlayerPosition" value = "${teamBench.naturalPosition}"/>
-								<input type = "hidden" name = "realTotalCost" value = "${realTotalCost}"/>
-								<input type = "hidden" name = "realBudget" value = "${realBudget}"/>
-								<input type = "hidden" name = "realBudgetIfPurchase" value = "${realBudgetIfPurchase}"/> 
 								<input type = "submit" name = "progression" value = "Sell"/>
 							</form>
 						</td>
@@ -177,8 +164,8 @@
 				</c:forEach>
 			</tbody>
 		</table>
-		<p>Total = ${totalCost}</p> <!-- total cost of this (^) selection -->
+		<p>Total = ${totalCostOfPurchase}</p> <!-- total cost of this (^) selection -->
 		<p>Your Budget = ${budget}</p>
-		<p>Budget After Purchase = ${budgetIfPurchase}</p> <!-- What will the budget be after purchase -->
+		<p>Budget After Purchase = ${budgetIfPurchased}</p> <!-- What will the budget be after purchase -->
 	</body>
 </html>

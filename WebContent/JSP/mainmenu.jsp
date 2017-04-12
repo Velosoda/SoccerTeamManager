@@ -59,18 +59,18 @@
 				<tr>
 			</thead>
 			<tbody>
-				<c:forEach var="userTeam"  items= "${userTeam}">
+				<c:forEach var="teamStarters"  items= "${teamStarters}">
 					<tr>
-						<td><c:out value="${userTeam.name}"></c:out>
-						<td><c:out value="${userTeam.age}"/></td>
-						<td><c:out value="${userTeam.ageGroup}"/></td>
-						<td><c:out value="${userTeam.attackSkill}"/></td>
-						<td><c:out value="${userTeam.midfieldSkill}"/></td>
-						<td><c:out value="${userTeam.defenseSkill}"/></td>
-						<td><c:out value="${userTeam.goalieSkill}"/></td>
-						<td><c:out value="${userTeam.naturalPosition}"/></td>
-						<td><c:out value="${userTeam.overall}"/></td>
-						<td><c:out value="${userTeam.cost}"/></td>
+						<td><c:out value="${teamStarters.name}"></c:out>
+						<td><c:out value="${teamStarters.age}"/></td>
+						<td><c:out value="${teamStarters.ageGroup}"/></td>
+						<td><c:out value="${teamStarters.attackSkill}"/></td>
+						<td><c:out value="${teamStarters.midfieldSkill}"/></td>
+						<td><c:out value="${teamStarters.defenseSkill}"/></td>
+						<td><c:out value="${teamStarters.goalieSkill}"/></td>
+						<td><c:out value="${teamStarters.naturalPosition}"/></td>
+						<td><c:out value="${teamStarters.overall}"/></td>
+						<td><c:out value="${teamStarters.cost}"/></td>
 					</tr>
 				</c:forEach>
 			</tbody>
