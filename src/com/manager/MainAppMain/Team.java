@@ -24,6 +24,20 @@ public class Team
 	ArrayList<Integer> matches = new ArrayList<Integer>();
 	ArrayList<Player> selectedPFM = new ArrayList<Player>(); //Players From Market : PFM
 	
+	
+	//begin edit 
+	private  int leaguePoints = 0;
+	public int getLeaguePoints() {
+		return leaguePoints;
+	}
+
+	public void setLeaguePoints(int leaguePoints) {
+		this.leaguePoints = leaguePoints;
+	}
+	//end edit 
+
+	
+	
 	Team(Market market)
 	{
 		for(int positionInTeamStarters = 0; positionInTeamStarters < 11; positionInTeamStarters++)

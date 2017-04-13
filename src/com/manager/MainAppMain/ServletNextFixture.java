@@ -1,6 +1,7 @@
 package com.manager.MainAppMain;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -35,9 +36,26 @@ public class ServletNextFixture extends HttpServlet {
 		//set up match day schedule
 		newMatchDay.matchDayMatchups(league);
 		
-		//player Evaluations 
+		//create leagePoints array
+		int[] leaguePoints = new int[4];
+		
+		//player Evaluations
+		try
+		{
 		newMatchDay.playerEvaluation(league.allTeams.get(newMatchDay.getMatch1_1()), league.allTeams.get(newMatchDay.getMatch1_2()));
 		newMatchDay.playerEvaluation(league.allTeams.get(newMatchDay.getMatch2_1()), league.allTeams.get(newMatchDay.getMatch2_2()));
+		}
+		catch(NullPointerException e)
+		{
+			for (int i = 0; i < league.allTeams.size() ; i++)
+			{
+				leaguePoints[i] = league.allTeams.get(i).getLeaguePoints();
+				System.out.println("Team " + i + "points: " + league.allTeams.get(i).getLeaguePoints());
+			}
+			request.setAttribute("leaguePoints", leaguePoints);
+			request.getRequestDispatcher("JSP/scoreboard.jsp").forward(request,response );;
+			return;	
+		}
 		
 		//determine who wins
 		newMatchDay.playMatch(league.allTeams.get(newMatchDay.getMatch1_1()), league.allTeams.get(newMatchDay.getMatch1_2()));
@@ -65,6 +83,13 @@ public class ServletNextFixture extends HttpServlet {
 		STM.setAttribute("league", league);
 		STM.setAttribute("ModelLoading", ml);
 		
+		//populate scoreboard between every match
+		for (int i = 0; i < league.allTeams.size() ; i++)
+		{
+			leaguePoints[i] = league.allTeams.get(i).getLeaguePoints();
+			//System.out.println("Team " + i + "points: " + league.allTeams.get(i).getLeaguePoints());
+		}
+		request.setAttribute("leaguePoints", leaguePoints);
 		request.getRequestDispatcher("/JSP/fixtureresults.jsp").forward(request, response);
 	}
 }
