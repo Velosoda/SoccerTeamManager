@@ -1,6 +1,9 @@
 package com.manager.MainAppMain;
 
 import java.util.Random;
+
+
+
 import java.io.*;
 
 public class Player 
@@ -20,17 +23,49 @@ public class Player
 	private int injuryRisk ; 
 	private String ageGroup;
 	private int exp;
+	private int injuryPool;
+	private int health;
+	private int death = 0; 
+
+	public void injuryCheck()
+	{
+		//the chance of an injury occuring is seperate from the actual risk,this further diversify's player quality
+		int injuryChance = (random.nextInt(20)) + (this.injuryRisk); 
+		if(injuryChance < random.nextInt(100))
+		{
+			this.injury();
+		}
+		
+	}
+	
+	public void injury()
+	{
+		this.setInjuryPool((int)(random.nextInt(5) * 2) * this.getInjuryRisk());
+		this.setHealth(this.getHealth() - this.getInjuryPool());
+		if(health <= 0)
+		{
+			this.death();
+		}
+	}
+
+	public void death() //temporarily setting up death like this in case facilitation in other methods is easier
+	{
+		//this will remove a player permenantly 
+		this.setDeath(1);
+	}
 	
 	Player() throws IOException
-	{		
+	{	
 		setAge(random.nextInt(Constants.maxAge - Constants.minAge) + Constants.minAge);
+		
 		if(getAge() <= 20)
 		{
 			setGoalieSkill(random.nextInt(Constants.youthSkillMax - Constants.youthSkillMin) + Constants.youthSkillMin);
 			setAttackSkill(random.nextInt(Constants.youthSkillMax - Constants.youthSkillMin) + Constants.youthSkillMin);
 			setDefenseSkill(random.nextInt(Constants.youthSkillMax - Constants.youthSkillMin) + Constants.youthSkillMin);
 			setMidfieldSkill(random.nextInt(Constants.youthSkillMax - Constants.youthSkillMin) + Constants.youthSkillMin);
-			setGrowth(Constants.youthGrowth);
+			setInjuryRisk(random.nextInt(Constants.youthInjuryRisk) + (int)(.3 * Constants.youthInjuryRisk));
+			setHealth(random.nextInt(Constants.youthHealthMax) + Constants.youthHealthMin);
 			positionDeterminator();
 			setAgeGroup(Constants.youth);
 		}
@@ -40,7 +75,8 @@ public class Player
 			setAttackSkill(random.nextInt(Constants.proSkillMax - Constants.proSkillMin) + Constants.proSkillMin);
 			setDefenseSkill(random.nextInt(Constants.proSkillMax - Constants.proSkillMin) + Constants.proSkillMin);
 			setMidfieldSkill(random.nextInt(Constants.proSkillMax - Constants.proSkillMin) + Constants.proSkillMin);
-			setGrowth(Constants.proGrowth);
+			setInjuryRisk(random.nextInt(Constants.proInjuryRisk ) + (int)(.3 * Constants.proInjuryRisk));
+			setHealth(random.nextInt(Constants.proHealthMax) + Constants.proHealthMin);
 			positionDeterminator();
 			setAgeGroup(Constants.pro);
 		}
@@ -50,12 +86,17 @@ public class Player
 			setAttackSkill(random.nextInt(Constants.expertSkillMax - Constants.expertSkillMin) + Constants.expertSkillMin);
 			setDefenseSkill(random.nextInt(Constants.expertSkillMax - Constants.expertSkillMin) + Constants.expertSkillMin);
 			setMidfieldSkill(random.nextInt(Constants.expertSkillMax - Constants.expertSkillMin) + Constants.expertSkillMin);
-			setGrowth(Constants.expertGrowth);
+			setInjuryRisk(random.nextInt(Constants.expertInjuryRisk) + (int)(.3 * Constants.expertInjuryRisk));
+			setHealth(random.nextInt(Constants.expertHealthMax) + Constants.expertHealthMin);
 			positionDeterminator();
 			setAgeGroup(Constants.experienced);
 		}
-		this.setCost(this.getCost() * this.getOverall()/100);	
+		this.setCost(this.getCost() * this.getOverall()/100);
+		this.setCost(this.getCost() + (10000 -(Constants.healthLimit - (this.getHealth() * 10))));
+		this.setCost(this.getCost() + (Constants.injuryRiskLimit - this.getInjuryRisk()) * Constants.injuryCostMultiplier);
+		
 	}
+	
 	public void positionDeterminator()
 	{
 		if(getAttackSkill() > getDefenseSkill() && getAttackSkill() > getMidfieldSkill() && getAttackSkill() > getGoalieSkill())
@@ -132,7 +173,7 @@ public class Player
 		System.out.println(this.getName() + " has leveled up");
 		this.setExp(0);
 	}
-	public void reprisal()
+	public void reprisal()//chance to level up even if they lose an evaluation
 	{
 		Random r = new Random();
 		int chance = r.nextInt(100);
@@ -147,6 +188,7 @@ public class Player
 			}
 		}
 	}
+	
 	public void printStats()
 	{
 		System.out.println("Age: " + getAge());
@@ -159,7 +201,31 @@ public class Player
 		System.out.println("Overall: " + getOverall());
 		System.out.println("Cost: $" + Constants.format.format(getCost()));
 		System.out.println("Name is " + getName());
+		System.out.println("Health is " + getHealth());
 		System.out.println();
+	}
+	public int getDeath() {
+		return death;
+	}
+
+	public void setDeath(int death) {
+		this.death = death;
+	}
+
+	public int getInjuryPool() {
+		return injuryPool;
+	}
+
+	public void setInjuryPool(int injuryPool) {
+		this.injuryPool = injuryPool;
+	}
+
+	public int getHealth() {
+		return health;
+	}
+
+	public void setHealth(int health) {
+		this.health = health;
 	}
 	public String getCurrentTeam() {
 		return currentTeam;

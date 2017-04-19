@@ -19,10 +19,13 @@ public class Team
 	private int goals = 0;
 	private double costOfPFM = 0;
 	private int id;
+	private  int leaguePoints = 0;
 	ArrayList<Player> teamStarters = new ArrayList<Player> ();
 	ArrayList<Player> teamBench = new ArrayList<Player> (benchMax);
 	ArrayList<Integer> matches = new ArrayList<Integer>();
 	ArrayList<Player> selectedPFM = new ArrayList<Player>(); //Players From Market : PFM
+	
+
 	
 	Team(Market market)
 	{
@@ -54,6 +57,20 @@ public class Team
 		}		
 	}
 	
+	//check if any players in the team had an injury in the match
+	public void injuryCheck()
+	{
+		for(int i = 0; i < this.teamStarters.size(); i++)
+		{
+			this.teamStarters.get(i).injuryCheck();
+			if(this.teamStarters.get(i).getDeath() == 1)
+			{
+				//teamStarters.remove(i);  this should be turned on when moving players around is safe
+				System.out.println(this.teamStarters.get(i).getName() + " has died");
+			}
+		}
+	}
+	
 	public void addPlayer(ArrayList<Player> origin, int positionInTeamStarters, Market market)
 	{
 		for(int i = 0; i < origin.size(); i++)
@@ -70,6 +87,7 @@ public class Team
 			}
 		}
 	}	
+	
 	
 	Team(String x)
 	{
@@ -92,6 +110,14 @@ public class Team
 		*/
 	}
 
+	public int getLeaguePoints() {
+		return leaguePoints;
+	}
+
+	public void setLeaguePoints(int leaguePoints) {
+		this.leaguePoints = leaguePoints;
+	}
+	
 	public int getId() {
 		return id;
 	}
