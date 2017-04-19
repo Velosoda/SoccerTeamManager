@@ -38,6 +38,7 @@ public class ServletMarketHandler extends HttpServlet
 		String progression = request.getParameter("progression");
 		Team userTeam = league.allTeams.get(Constants.userTeamId);
 		
+		
 		//all the arrays that will be manipulated
 		ArrayList<Player> selectedPFM = league.allTeams.get(Constants.userTeamId).selectedPFM;
 		ArrayList<Player> teamStarters = league.allTeams.get(Constants.userTeamId).teamStarters;
@@ -81,6 +82,12 @@ public class ServletMarketHandler extends HttpServlet
 				
 				//reset the CostofPFM var
 				userTeam.setCostOfPFM(0);
+				
+				//update CurrentPosition
+				for(int i = 0; i < userTeam.teamStarters.size(); i++)
+				{
+					ml.updateCurrentPosition(userTeam.teamStarters.get(i), i, userTeam.teamStarters);
+				}
 				
 				request.setAttribute("budget", Constants.format.format(userTeam.getBudget()));
 				request.setAttribute("totalCostOfPurchase", Constants.format.format(userTeam.getCostOfPFM()));
@@ -206,7 +213,7 @@ public class ServletMarketHandler extends HttpServlet
 					
 					//remove from Starters
 					ml.totalMarket.add(selectedPlayer);
-					teamStarters.remove(i);
+					teamBench.remove(i);
 					
 					//budget control here
 					userTeam.setBudget(userTeam.getBudget()+selectedPlayer.getCost());

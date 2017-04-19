@@ -76,14 +76,12 @@ public class Match {
 				a.setPoints(a.getPoints()+ 1);
 			System.out.println("A points:" + a.getPoints() + " B points: " + b.getPoints());
 		//judge who is the winner based on who has the most points
-		/*
 		if(a.getPoints() < b.getPoints())
 		{
 			this.setWinner(b); this.setLoser(a);
 		}
 		else
 			this.setWinner(a); this.setLoser(b);
-			*/
 	}
 	public void playMatch(Team a, Team b)
 	{
@@ -138,6 +136,7 @@ public class Match {
 			b.setGoals(b.getGoals() + 1);
 		}
 		
+		
 		int gAvgA = teama.get(10).getGoalieSkill();
 		int gAvgB = (teamb.get(10).getGoalieSkill());
 		if(gAvgA > gAvgB)
@@ -153,28 +152,6 @@ public class Match {
 		{
 			b.setGoals(b.getGoals() + 1);
 		}
-		
-		if(a.getGoals() == b.getGoals())
-		{
-			a.setLeaguePoints(a.getLeaguePoints() + 1);
-			b.setLeaguePoints(b.getLeaguePoints() + 1);
-			System.out.println("TIE***********************************************************************************************************");
-		
-		}
-		else//nested else
-		{
-			if(a.getGoals() > b.getGoals())
-			{
-				this.setWinner(a);
-			}
-			else
-			{
-				this.setWinner(b);
-			}
-			winner.setLeaguePoints(winner.getLeaguePoints() + 3);
-			System.out.println("PLAIN*****************************************************************************************************");
-		}
-		
 		System.out.println("atk avg A is " + atkAvgA);
 		System.out.println("atk avg B is " + atkAvgB);
 		System.out.println("mf avg A is " + mfAvgA);
@@ -186,13 +163,6 @@ public class Match {
 		System.out.println("A scored " + a.getGoals() + " goals");
 		System.out.println("B scored " + b.getGoals() + " goals");
 	}
-	//***************************************************************************************************************************************************
-	public void injuryCheck(Team a,Team b)
-	{
-		a.injuryCheck();
-		b.injuryCheck();
-	}
-	
 	public void firstMatch(League league)
 	{
 		for(int i = 0; i < league.allTeams.size(); i++)

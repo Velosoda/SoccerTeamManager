@@ -190,6 +190,10 @@ public class SerlvetInitAddPlayersToTeam extends HttpServlet
 			userTeam.teamStarters.add(selectedPFM.get(i));
 		}
 		
+		for(int i = 0; i < userTeam.teamStarters.size(); i++)
+		{
+			ml.updateCurrentPosition(userTeam.teamStarters.get(i), i, userTeam.teamStarters);
+		}
 		//clear selectedPFM
 		selectedPFM.clear();
 		
