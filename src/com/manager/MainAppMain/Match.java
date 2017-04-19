@@ -186,6 +186,13 @@ public class Match {
 		System.out.println("A scored " + a.getGoals() + " goals");
 		System.out.println("B scored " + b.getGoals() + " goals");
 	}
+	//***************************************************************************************************************************************************
+	public void injuryCheck(Team a,Team b)
+	{
+		a.injuryCheck();
+		b.injuryCheck();
+	}
+	
 	public void firstMatch(League league)
 	{
 		for(int i = 0; i < league.allTeams.size(); i++)
