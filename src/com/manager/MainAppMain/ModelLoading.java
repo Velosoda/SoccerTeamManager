@@ -15,6 +15,7 @@ public class ModelLoading
 			totalMarket.add(playerToCopy);
 		}
 	}
+
 	public void updateCurrentPosition(ArrayList<Player> teamStarters)
 	{
 		for(int i = 0; i < teamStarters.size(); i++)
@@ -38,6 +39,8 @@ public class ModelLoading
 			}
 		}
 	}
+}
+	
 	/*
 	public static void main(String[] args)
 	{
@@ -56,4 +59,4 @@ public class ModelLoading
 		}
 	}
 	*/
-}
+

@@ -23,6 +23,9 @@ public class Match {
 		Constants.deathRecord.clear();
 		//a.setCurrentPositions();
 		//b.setCurrentPositions();
+		ModelLoading ml = new ModelLoading();
+		ml.updateCurrentPosition(a.teamStarters);
+		ml.updateCurrentPosition(b.teamStarters);
 		
 		a.setCurrentSkills();
 		b.setCurrentSkills();

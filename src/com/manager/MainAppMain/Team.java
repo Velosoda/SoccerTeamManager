@@ -75,7 +75,7 @@ public class Team
 				//teamStarters.remove(i);  this should be turned on when moving players around is safe
 				System.out.println(this.teamStarters.get(i).getName() + " has died");
 				this.teamBench.add(this.teamStarters.get(i));
-				//this.teamStarters.remove(this.teamStarters.get(i));
+				this.teamStarters.remove(this.teamStarters.get(i));
 				
 			}
 		} 
