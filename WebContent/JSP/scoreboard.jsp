@@ -35,6 +35,11 @@ table, th, td {
 </tbody>
 </table>
 
+	<div class="mainmenu">
+		<a class="clickMe" href="MainMenu"> Main Menu </a>
+
+	  </div>
+
 
 </body>
 </html>

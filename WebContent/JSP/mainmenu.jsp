@@ -115,6 +115,8 @@
 						<th>Goalie</th>
 						<th>Position</th>
 						<th>Overall</th>
+						<th>Health</th>
+						<th>Injury Risk</th>
 						<th>Cost</th>
 						<th>Swap</th>
 					<tr>
@@ -131,6 +133,8 @@
 							<td><c:out value="${teamStarters.goalieSkill}"/></td>
 							<td><c:out value="${teamStarters.naturalPosition}"/></td>
 							<td><c:out value="${teamStarters.overall}"/></td>
+							<td><c:out value="${teamStarters.health }"/></td>
+							<td><c:out value="${teamStarters.injuryRisk}"/></td>
 							<td><c:out value="${teamStarters.cost}"/></td>
 							<td>
 								<input type="radio" name="selectedPlayerStarter" value="${teamStarters.name}"/>
@@ -155,7 +159,7 @@
 						<th>Goalie</th>
 						<th>Position</th>
 						<th>Overall</th>
-						<th>Cost</th>
+						<th>Health</th>
 						<th>Swap</th>
 					<tr>
 				</thead>
@@ -171,7 +175,7 @@
 							<td><c:out value="${teamBench.goalieSkill}"/></td>
 							<td><c:out value="${teamBench.naturalPosition}"/></td>
 							<td><c:out value="${teamBench.overall}"/></td>
-							<td><c:out value="${teamBench.cost}"/></td>
+							<td><c:out value="${teamBench.health}"/></td>
 							<td>
 								<input type="radio" name="selectedPlayerBench" value="${teamBench.name}"/>
 								<input type="hidden" name="positionOfBench" value="${position1.index}"/>
