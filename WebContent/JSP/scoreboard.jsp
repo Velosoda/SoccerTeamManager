@@ -29,9 +29,7 @@ table, th, td {
 <tbody>
 <tr>
 	<c:forEach var="leaguePoints"  items= "${leaguePoints}" >
-			
 			<td><c:out value="${leaguePoints}" > </c:out></td>		
-		
 </c:forEach>
 </tr>	
 </tbody>
