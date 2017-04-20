@@ -15,23 +15,27 @@ public class ModelLoading
 			totalMarket.add(playerToCopy);
 		}
 	}
-	public void updateCurrentPosition(Player playerBeingSwitched, int positionInArray, ArrayList<Player> teamStarters)
+	public void updateCurrentPosition(ArrayList<Player> teamStarters)
 	{
-		if(positionInArray > 0 && positionInArray < 2)
+		for(int i = 0; i < teamStarters.size(); i++)
 		{
-			playerBeingSwitched.setCurrentPosition(Constants.attacker);
-		}
-		if(positionInArray >= 2 && positionInArray < 6)
-		{
-			playerBeingSwitched.setCurrentPosition(Constants.midfielder);
-		}
-		if(positionInArray >= 6 && positionInArray < 10)
-		{
-			playerBeingSwitched.setCurrentPosition(Constants.defender);
-		}
-		if(positionInArray == 10)
-		{
-			playerBeingSwitched.setCurrentPosition(Constants.goalie);
+			Player playerBeingSwitched = teamStarters.get(i);
+			if(i > 0 && i < 2)
+			{
+				playerBeingSwitched.setCurrentPosition(Constants.attacker);
+			}
+			if(i >= 2 && i < 6)
+			{
+				playerBeingSwitched.setCurrentPosition(Constants.midfielder);
+			}
+			if(i >= 6 && i < 10)
+			{
+				playerBeingSwitched.setCurrentPosition(Constants.defender);
+			}
+			if(i == 10)
+			{
+				playerBeingSwitched.setCurrentPosition(Constants.goalie);
+			}
 		}
 	}
 	/*

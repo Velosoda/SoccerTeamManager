@@ -156,10 +156,8 @@ public class ServletEditTeam extends HttpServlet {
 					teamStarters.add(10, temp);
 				}
 			}
-			for(int i = 0; i < teamStarters.size(); i++)
-			{
-				ml.updateCurrentPosition(teamStarters.get(i), i, teamStarters);
-			}
+			//Update current position
+			ml.updateCurrentPosition(teamStarters);
 			
 			//store all the values created above to the context
 			STM.setAttribute("market", market);
