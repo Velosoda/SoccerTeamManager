@@ -11,12 +11,21 @@ public class Match {
 	private Integer match2_1;
 	private Integer match2_2; 
 	
+	
 	Match()
 	{
 		
 	}
+	
 	public void playerEvaluation(Team a, Team b)
 	{
+		Constants.levelUpRecord.clear();
+		Constants.deathRecord.clear();
+		//a.setCurrentPositions();
+		//b.setCurrentPositions();
+		
+		a.setCurrentSkills();
+		b.setCurrentSkills();
 		a.setPoints(0);
 		b.setPoints(0);
 		System.out.println("A is team " + a.getId() + " B is team " + b.getId());
@@ -27,6 +36,7 @@ public class Match {
 			{
 				b.setPoints(b.getPoints()+ 1);
 				b.teamStarters.get(i).levelUp();
+				System.out.println("************************************************************current is " + b.teamStarters.get(i).getCurrentPosition());
 				a.teamStarters.get(i).reprisal();
 			}
 			else
@@ -35,6 +45,7 @@ public class Match {
 				b.teamStarters.get(i).reprisal();	
 		}
 		System.out.println("A points:" + a.getPoints() + " B points: " + b.getPoints());
+		
 		//determine winner of mf skill
 		for(int i =2; i < 6 ; i++)
 		{
@@ -50,6 +61,7 @@ public class Match {
 				b.teamStarters.get(i).reprisal();
 		}
 		System.out.println("A points:" + a.getPoints() + " B points: " + b.getPoints());
+		
 		//determine winner of d skill
 		for(int i =6; i < 10 ; i++)
 		{
@@ -65,6 +77,7 @@ public class Match {
 				b.teamStarters.get(i).reprisal();
 		}
 		System.out.println("A points:" + a.getPoints() + " B points: " + b.getPoints());
+		
 		//determine winner of goalie skill
 			if(a.teamStarters.get(10).getGoalieSkill() < b.teamStarters.get(10).getGoalieSkill())
 			{
@@ -75,15 +88,10 @@ public class Match {
 			else
 				a.setPoints(a.getPoints()+ 1);
 			System.out.println("A points:" + a.getPoints() + " B points: " + b.getPoints());
-		//judge who is the winner based on who has the most points
-		/*
-		if(a.getPoints() < b.getPoints())
-		{
-			this.setWinner(b); this.setLoser(a);
-		}
-		else
-			this.setWinner(a); this.setLoser(b);
-			*/
+		
+			
+			
+			
 	}
 	public void playMatch(Team a, Team b)
 	{
