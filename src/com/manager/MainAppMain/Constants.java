@@ -2,6 +2,7 @@ package com.manager.MainAppMain;
 
 import java.text.NumberFormat;
 import java.util.Locale;
+import java.util.ArrayList;
 
 public class Constants 
 {
@@ -21,6 +22,7 @@ public class Constants
 	public static int youthGrowth = 3;
 	public static int proGrowth = 2;
 	public static int expertGrowth = 1; 
+	public static int levelUpRate = 1;
 	public static int youthInjuryRisk = 10; 
 	public static int proInjuryRisk = 20; 
 	public static int expertInjuryRisk = 30; 
@@ -39,6 +41,8 @@ public class Constants
 	public static int youthHealthMin = 50;
 	public static int proHealthMin = 100;
 	public static int expertHealthMin = 150;
+	public static ArrayList<Player> levelUpRecord = new ArrayList<Player>();
+	public static ArrayList<Player> deathRecord = new ArrayList<Player>();
 	
 	//***********************************************************************************************************************
 	//MARKET VARIABLES 
@@ -83,4 +87,5 @@ public class Constants
 	//GAME VARS	
 	public static String namesFilePath = "WebContent/names.txt";
 	public static int userTeamAutoFill = 0; // auto fill the team for test mode
+	
 }

@@ -9,13 +9,15 @@ import java.io.*;
 public class Player 
 {
 	Random random = new Random();
-	private String currentTeam = "";
+	private String name;
+	private int currentTeam;
 	private String naturalPosition = "";
 	private String currentPosition = ""; 
 	private int attackSkill;
 	private int midfieldSkill;
 	private int defenseSkill;
 	private int goalieSkill;
+	private int currentSkillValue;
 	private Double cost = Constants.defaultCostPerPlayer;
 	private int overall;
 	private int age;
@@ -52,6 +54,7 @@ public class Player
 	{
 		//this will remove a player permenantly 
 		this.setDeath(1);
+		Constants.deathRecord.add(this);
 	}
 	
 	Player() throws IOException
@@ -104,6 +107,7 @@ public class Player
 			setNaturalPosition(Constants.attacker);
 			setGoalieSkill(random.nextInt(Constants.youthSkillMin));
 			setOverall((getAttackSkill() + getMidfieldSkill()  + getDefenseSkill())/3);
+			setCurrentSkillValue(this.getAttackSkill());//***********
 			return;
 		}
 		else if(getDefenseSkill() > getMidfieldSkill() && getDefenseSkill() > getAttackSkill() && getDefenseSkill() > getGoalieSkill())
@@ -111,6 +115,7 @@ public class Player
 			setNaturalPosition(Constants.defender);
 			setGoalieSkill(random.nextInt(Constants.youthSkillMin));
 			setOverall((getAttackSkill() + getMidfieldSkill()  + getDefenseSkill())/3);
+			setCurrentSkillValue(this.getDefenseSkill());//********************************
 			return;
 		}
 		else if(getMidfieldSkill() > getAttackSkill() && getMidfieldSkill() > getDefenseSkill() && getMidfieldSkill() > getGoalieSkill())
@@ -118,6 +123,7 @@ public class Player
 			setNaturalPosition(Constants.midfielder);
 			setGoalieSkill(random.nextInt(Constants.youthSkillMin));
 			setOverall((getAttackSkill() + getMidfieldSkill()  + getDefenseSkill())/3);
+			setCurrentSkillValue(this.getMidfieldSkill());//*********************
 			return;
 		}
 		else if(getGoalieSkill() > getAttackSkill() && getGoalieSkill() > getMidfieldSkill() && getGoalieSkill() > getDefenseSkill())
@@ -127,6 +133,7 @@ public class Player
 			setDefenseSkill(random.nextInt(Constants.youthSkillMin));
 			setMidfieldSkill(random.nextInt(Constants.youthSkillMin));
 			setOverall(getGoalieSkill());
+			setCurrentSkillValue(this.getGoalieSkill());
 			return;
 		}
 		else
@@ -152,27 +159,34 @@ public class Player
 			return;
 		}
 	}
+	
 	public void levelUp()
 	{
 		if(this.currentPosition == Constants.attacker)
 		{
-			setAttackSkill(getAttackSkill() + 1);
+			setAttackSkill(getAttackSkill() + Constants.levelUpRate);
 		}
 		if(this.currentPosition == Constants.defender)
 		{
-			setDefenseSkill(getDefenseSkill() + 1);
+			setDefenseSkill(getDefenseSkill() + Constants.levelUpRate);
 		}
 		if(this.currentPosition == Constants.midfielder)
 		{
-			setMidfieldSkill(getMidfieldSkill() + 1);
+			setMidfieldSkill(getMidfieldSkill() + Constants.levelUpRate);
 		}
 		if(this.currentPosition == Constants.goalie)
 		{
-			setGoalieSkill(getGoalieSkill() + 1);
+			setGoalieSkill(getGoalieSkill() + Constants.levelUpRate);
 		}
 		System.out.println(this.getName() + " has leveled up");
+		
+		if(this.getCurrentTeam() == Constants.userTeamId)
+		{
+		Constants.levelUpRecord.add(this);
+		}
 		this.setExp(0);
 	}
+	
 	public void reprisal()//chance to level up even if they lose an evaluation
 	{
 		Random r = new Random();
@@ -204,6 +218,15 @@ public class Player
 		System.out.println("Health is " + getHealth());
 		System.out.println();
 	}
+	
+	public int getCurrentSkillValue() {
+		return currentSkillValue;
+	}
+
+	public void setCurrentSkillValue(int currentSkillValue) {
+		this.currentSkillValue = currentSkillValue;
+	}
+		
 	public int getDeath() {
 		return death;
 	}
@@ -227,10 +250,10 @@ public class Player
 	public void setHealth(int health) {
 		this.health = health;
 	}
-	public String getCurrentTeam() {
+	public int getCurrentTeam() {
 		return currentTeam;
 	}
-	public void setCurrentTeam(String currentTeam) {
+	public void setCurrentTeam(int currentTeam) {
 		this.currentTeam = currentTeam;
 	}
 	public String getNaturalPosition() {
@@ -305,8 +328,7 @@ public class Player
 	public void setAgeGroup(String ageGroup) {
 		this.ageGroup = ageGroup;
 	}
-	private String name;
-
+	
 	public String getName() {
 		return name;
 	}
@@ -341,9 +363,6 @@ public class Player
 			System.out.println("Cost: $" + Constants.format.format(player.getCost()));
 			System.out.println();
 			System.out.println(player.getName());
-		}
-		
-		
+		}	
 	}
-	
 }

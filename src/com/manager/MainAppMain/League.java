@@ -54,6 +54,7 @@ public class League
 		{
 			Team newTeam = new Team(market);
 			newTeam.setId(i);
+			newTeam.setPlayerId();
 			allTeams.add(newTeam);	
 		}
 		//add autofill team
@@ -61,6 +62,7 @@ public class League
 		{
 			Team usersTeam = new Team(market);
 			usersTeam.setId(Constants.leagueMaxTeams-1);
+			usersTeam.setPlayerId();
 			allTeams.add(usersTeam);
 		}
 		//dont autofillTeam
@@ -68,6 +70,7 @@ public class League
 		{
 			Team usersTeam = new Team("user");
 			usersTeam.setId(Constants.leagueMaxTeams-1);
+			usersTeam.setPlayerId();
 			allTeams.add(usersTeam);
 		}
 	}

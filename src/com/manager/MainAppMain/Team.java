@@ -25,8 +25,6 @@ public class Team
 	ArrayList<Integer> matches = new ArrayList<Integer>();
 	ArrayList<Player> selectedPFM = new ArrayList<Player>(); //Players From Market : PFM
 	
-
-	
 	Team(Market market)
 	{
 		for(int positionInTeamStarters = 0; positionInTeamStarters < 11; positionInTeamStarters++)
@@ -57,6 +55,15 @@ public class Team
 		}		
 	}
 	
+	public void setPlayerId()
+	{
+		for(int i = 0 ; i < this.teamStarters.size() ; i++)
+		{
+			this.teamStarters.get(i).setCurrentTeam(this.getId());
+			System.out.println(this.teamStarters.get(i).getName() + " has team ID of " + this.getId());
+		}
+	}
+	
 	//check if any players in the team had an injury in the match
 	public void injuryCheck()
 	{
@@ -67,8 +74,12 @@ public class Team
 			{
 				//teamStarters.remove(i);  this should be turned on when moving players around is safe
 				System.out.println(this.teamStarters.get(i).getName() + " has died");
+				this.teamBench.add(this.teamStarters.get(i));
+				//this.teamStarters.remove(this.teamStarters.get(i));
+				
 			}
-		}
+		} 
+		
 	}
 	
 	public void addPlayer(ArrayList<Player> origin, int positionInTeamStarters, Market market)
@@ -82,11 +93,49 @@ public class Team
 				teamStarters.add(positionInTeamStarters, potentialBuy);
 				setBudget(getBudget() - potentialBuy.getCost());
 				origin.remove(potentialBuy);
+				
 				market.refreshMarket(potentialBuy);
 				break;
 			}
 		}
+		//setCurrentPositions(teamStarters);
 	}	
+	
+	public void setCurrentPositions()
+	{
+		
+		for (int i = 0 ; i < 2 ; i++)
+		{
+			this.teamStarters.get(i).setCurrentPosition(Constants.attacker);
+		}
+		for (int i = 0 ; i < 6 ; i++)
+		{
+			this.teamStarters.get(i).setCurrentPosition(Constants.midfielder);
+		}
+		for (int i = 0 ; i < 11 ; i++)
+		{
+			this.teamStarters.get(i).setCurrentPosition(Constants.defender);
+		}
+			this.teamStarters.get(10).setCurrentPosition(Constants.goalie);
+	}
+	
+	public void setCurrentSkills()
+	{
+		for (int i = 0 ; i < 2 ; i++)
+		{
+			this.teamStarters.get(i).setCurrentSkillValue(this.teamStarters.get(i).getAttackSkill());
+		}
+		for (int i = 0 ; i < 6 ; i++)
+		{
+			this.teamStarters.get(i).setCurrentSkillValue(this.teamStarters.get(i).getMidfieldSkill());
+		}
+		for (int i = 0 ; i < 11 ; i++)
+		{
+			this.teamStarters.get(i).setCurrentSkillValue(this.teamStarters.get(i).getDefenseSkill());
+		}
+		this.teamStarters.get(10).setCurrentSkillValue(this.teamStarters.get(10).getDefenseSkill());
+	}
+	
 	
 	
 	Team(String x)
