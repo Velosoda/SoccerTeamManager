@@ -6,7 +6,7 @@ import java.util.Random;
 
 import java.io.*;
 
-public class Player 
+public class Player
 {
 	Random random = new Random();
 	private String name;
@@ -26,8 +26,20 @@ public class Player
 	private String ageGroup;
 	private int exp;
 	private int injuryPool;
-	private int health;
+	private int currentHealth;
+	private int maxHealth;
 	private int death = 0; 
+	
+	public Player copy(Player x) throws IOException
+	{
+		System.out.println(" Values of original player: " + " Name" + x.getName() + " Current Position: " +  x.getCurrentPosition() + " Current Skill Val:" +  x.currentSkillValue);
+		Player copy = new Player();
+		copy.setName(x.getName());
+		copy.setCurrentPosition(x.getCurrentPosition());
+		copy.setCurrentSkillValue(x.getCurrentSkillValue());
+		System.out.println("Values of copy " + " Name:" +copy.getName() + " Current Position:" +  copy.getCurrentPosition() + " Current Skill Value:" +  copy.getCurrentSkillValue());
+		return copy;
+	}
 
 	public void injuryCheck()
 	{
@@ -43,8 +55,8 @@ public class Player
 	public void injury()
 	{
 		this.setInjuryPool((int)(random.nextInt(5) * 2) * this.getInjuryRisk());
-		this.setHealth(this.getHealth() - this.getInjuryPool());
-		if(health <= 0)
+		this.setCurrentHealth(this.getCurrentHealth() - this.getInjuryPool());
+		if(this.getCurrentHealth() <= 0)
 		{
 			this.death();
 		}
@@ -54,7 +66,14 @@ public class Player
 	{
 		//this will remove a player permenantly 
 		this.setDeath(1);
+		this.setCurrentHealth(0);
 		Constants.deathRecord.add(this);
+	}
+	
+	public void recovery()
+	{
+		double recoveryAmount = this.getMaxHealth()/3;
+		this.setCurrentHealth(this.getCurrentHealth() + (int)recoveryAmount);
 	}
 	
 	Player() throws IOException
@@ -68,7 +87,8 @@ public class Player
 			setDefenseSkill(random.nextInt(Constants.youthSkillMax - Constants.youthSkillMin) + Constants.youthSkillMin);
 			setMidfieldSkill(random.nextInt(Constants.youthSkillMax - Constants.youthSkillMin) + Constants.youthSkillMin);
 			setInjuryRisk(random.nextInt(Constants.youthInjuryRisk) + (int)(.3 * Constants.youthInjuryRisk));
-			setHealth(random.nextInt(Constants.youthHealthMax) + Constants.youthHealthMin);
+			this.setMaxHealth(random.nextInt(Constants.youthHealthMax) + Constants.youthHealthMin);
+			this.setCurrentHealth(this.getMaxHealth());
 			positionDeterminator();
 			setAgeGroup(Constants.youth);
 		}
@@ -79,7 +99,8 @@ public class Player
 			setDefenseSkill(random.nextInt(Constants.proSkillMax - Constants.proSkillMin) + Constants.proSkillMin);
 			setMidfieldSkill(random.nextInt(Constants.proSkillMax - Constants.proSkillMin) + Constants.proSkillMin);
 			setInjuryRisk(random.nextInt(Constants.proInjuryRisk ) + (int)(.3 * Constants.proInjuryRisk));
-			setHealth(random.nextInt(Constants.proHealthMax) + Constants.proHealthMin);
+			this.setMaxHealth(random.nextInt(Constants.proHealthMax) + Constants.proHealthMin);
+			this.setCurrentHealth(this.getMaxHealth());
 			positionDeterminator();
 			setAgeGroup(Constants.pro);
 		}
@@ -90,12 +111,13 @@ public class Player
 			setDefenseSkill(random.nextInt(Constants.expertSkillMax - Constants.expertSkillMin) + Constants.expertSkillMin);
 			setMidfieldSkill(random.nextInt(Constants.expertSkillMax - Constants.expertSkillMin) + Constants.expertSkillMin);
 			setInjuryRisk(random.nextInt(Constants.expertInjuryRisk) + (int)(.3 * Constants.expertInjuryRisk));
-			setHealth(random.nextInt(Constants.expertHealthMax) + Constants.expertHealthMin);
+			this.setMaxHealth(random.nextInt(Constants.expertHealthMax) + Constants.expertHealthMin);
+			this.setCurrentHealth(this.getMaxHealth());
 			positionDeterminator();
 			setAgeGroup(Constants.experienced);
 		}
 		this.setCost(this.getCost() * this.getOverall()/100);
-		this.setCost(this.getCost() + (10000 -(Constants.healthLimit - (this.getHealth() * 10))));
+		this.setCost(this.getCost() + (10000 -(Constants.healthLimit - (this.getCurrentHealth() * 10))));
 		this.setCost(this.getCost() + (Constants.injuryRiskLimit - this.getInjuryRisk()) * Constants.injuryCostMultiplier);
 		
 	}
@@ -160,34 +182,38 @@ public class Player
 		}
 	}
 	
-	public void levelUp()
+	public void levelUp() throws IOException
 	{
 		if(this.currentPosition == Constants.attacker)
 		{
-			setAttackSkill(getAttackSkill() + Constants.levelUpRate);
+			System.out.println(this.getName() + " went from " + this.getAttackSkill() + " ATK to " );
+			this.setAttackSkill(this.getAttackSkill() + Constants.levelUpRate);
+			System.out.println(this.getAttackSkill());
 		}
 		if(this.currentPosition == Constants.defender)
 		{
-			setDefenseSkill(getDefenseSkill() + Constants.levelUpRate);
+			this.setDefenseSkill(this.getDefenseSkill() + Constants.levelUpRate);
 		}
 		if(this.currentPosition == Constants.midfielder)
 		{
-			setMidfieldSkill(getMidfieldSkill() + Constants.levelUpRate);
+			this.setMidfieldSkill(this.getMidfieldSkill() + Constants.levelUpRate);
 		}
 		if(this.currentPosition == Constants.goalie)
 		{
-			setGoalieSkill(getGoalieSkill() + Constants.levelUpRate);
+			this.setGoalieSkill(this.getGoalieSkill() + Constants.levelUpRate);
 		}
 		System.out.println(this.getName() + " has leveled up");
 		
 		if(this.getCurrentTeam() == Constants.userTeamId)
 		{
-		Constants.levelUpRecord.add(this);
+		
+		Constants.levelUpRecord.add(this.copy(this));
 		}
+		
 		this.setExp(0);
 	}
 	
-	public void reprisal()//chance to level up even if they lose an evaluation
+	public void reprisal() throws IOException //chance to level up even if they lose an evaluation
 	{
 		Random r = new Random();
 		int chance = r.nextInt(100);
@@ -215,10 +241,20 @@ public class Player
 		System.out.println("Overall: " + getOverall());
 		System.out.println("Cost: $" + Constants.format.format(getCost()));
 		System.out.println("Name is " + getName());
-		System.out.println("Health is " + getHealth());
+		System.out.println("Health is " + getCurrentHealth());
 		System.out.println();
 	}
 	
+	 
+	
+	
+	public int getMaxHealth() {
+		return maxHealth;
+	}
+
+	public void setMaxHealth(int maxHealth) {
+		this.maxHealth = maxHealth;
+	}
 	public int getCurrentSkillValue() {
 		return currentSkillValue;
 	}
@@ -243,12 +279,12 @@ public class Player
 		this.injuryPool = injuryPool;
 	}
 
-	public int getHealth() {
-		return health;
+	public int getCurrentHealth() {
+		return currentHealth;
 	}
 
-	public void setHealth(int health) {
-		this.health = health;
+	public void setCurrentHealth(int health) {
+		this.currentHealth = health;
 	}
 	public int getCurrentTeam() {
 		return currentTeam;
@@ -345,24 +381,11 @@ public class Player
 	
 	public static void main(String[] args) throws IOException
 	{
-	//	ArrayList<Player> league = new ArrayList<Player>();
-		for(int i = 0; i < 50; i++)
-		{
-			Player player = new Player();
-			if(player.naturalPosition.equals(Constants.goalie))
-			{
-			}
-			System.out.println("Age: " + player.getAge());
-			System.out.println("Age Group: " + player.getAgeGroup());
-			System.out.println("Attack: " + player.getAttackSkill());
-			System.out.println("MidField: "+ player.getMidfieldSkill());
-			System.out.println("Defense: " + player.getDefenseSkill());
-			System.out.println("Goalie: " + player.getGoalieSkill());
-			System.out.println("Position: " + player.getNaturalPosition());
-			System.out.println("Overall: " + player.getOverall());
-			System.out.println("Cost: $" + Constants.format.format(player.getCost()));
-			System.out.println();
-			System.out.println(player.getName());
-		}	
+		
+		
+		Player player = new Player();
+		player.setName("Michael");
+		//player.setCurrentPosition(currentPosition);
+		player.copy(player);
 	}
 }

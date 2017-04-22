@@ -14,17 +14,17 @@ import javax.servlet.http.HttpServletResponse;
 public class ServletNextFixture extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    public ServletNextFixture() 
+    public ServletNextFixture() throws CloneNotSupportedException
     {
         super();      
     }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		doPost(request, response);
 	}
 	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		ServletContext STM = getServletConfig().getServletContext();
 		Market market = (Market)STM.getAttribute("market");
@@ -65,6 +65,9 @@ public class ServletNextFixture extends HttpServlet {
 			newMatchDay.playMatch(league.allTeams.get(newMatchDay.getMatch1_1()), league.allTeams.get(newMatchDay.getMatch1_2()));
 			newMatchDay.playMatch(league.allTeams.get(newMatchDay.getMatch2_1()), league.allTeams.get(newMatchDay.getMatch2_2()));
 			
+			//apply bench recovery, applying it before the injury check works smoother
+			league.allTeams.get(Constants.userTeamId).recovery();
+			
 			//determine who has gotten injured
 			league.allTeams.get(Constants.userTeamId).injuryCheck();
 			
@@ -80,9 +83,9 @@ public class ServletNextFixture extends HttpServlet {
 			request.setAttribute("team2_1", newMatchDay.getMatch2_1());
 			request.setAttribute("team2_2", newMatchDay.getMatch2_2());
 			
-			//send  results tables
-			request.setAttribute("levelUpRecord", Constants.levelUpRecord);
-			request.setAttribute("deathRecord", Constants.deathRecord);
+			//send  results tables, for some reason the tables arn't actually changing between fixtures but they are being cleared before the player evaluations in match
+			STM.setAttribute("levelUpRecord", Constants.levelUpRecord);
+			STM.setAttribute("deathRecord", Constants.deathRecord);
 			
 			//reset goals
 			league.allTeams.get(newMatchDay.getMatch1_1()).setGoals(0);

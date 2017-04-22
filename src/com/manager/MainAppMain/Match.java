@@ -17,7 +17,7 @@ public class Match {
 		
 	}
 	
-	public void playerEvaluation(Team a, Team b)
+	public void playerEvaluation(Team a, Team b) throws IOException
 	{
 		Constants.levelUpRecord.clear();
 		Constants.deathRecord.clear();
@@ -27,8 +27,7 @@ public class Match {
 		ml.updateCurrentPosition(a.teamStarters);
 		ml.updateCurrentPosition(b.teamStarters);
 		
-		a.setCurrentSkills();
-		b.setCurrentSkills();
+		
 		a.setPoints(0);
 		b.setPoints(0);
 		System.out.println("A is team " + a.getId() + " B is team " + b.getId());
@@ -91,10 +90,10 @@ public class Match {
 			else
 				a.setPoints(a.getPoints()+ 1);
 			System.out.println("A points:" + a.getPoints() + " B points: " + b.getPoints());
-		
 			
-			
-			
+			a.setCurrentSkills();
+			b.setCurrentSkills();
+				
 	}
 	public void playMatch(Team a, Team b)
 	{
@@ -204,6 +203,7 @@ public class Match {
 		b.injuryCheck();
 	}
 	
+	
 	public void firstMatch(League league)
 	{
 		for(int i = 0; i < league.allTeams.size(); i++)
@@ -277,6 +277,7 @@ public class Match {
 		{
 			match.playerEvaluation(league.allTeams.get(0), league.allTeams.get(1));
 			match.playMatch(league.allTeams.get(0), league.allTeams.get(1));
+			
 			
 		}
 		

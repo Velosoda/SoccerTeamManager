@@ -72,14 +72,25 @@ public class Team
 			this.teamStarters.get(i).injuryCheck();
 			if(this.teamStarters.get(i).getDeath() == 1)
 			{
-				//teamStarters.remove(i);  this should be turned on when moving players around is safe
-				System.out.println(this.teamStarters.get(i).getName() + " has died");
-				this.teamBench.add(this.teamStarters.get(i));
-				this.teamStarters.remove(this.teamStarters.get(i));
 				
+				System.out.println(this.teamStarters.get(i).getName() + " has died");
+				this.teamStarters.get(i).setDeath(0);
+				this.teamBench.add(this.teamStarters.get(i));
+				this.teamStarters.remove(this.teamStarters.get(i));	
 			}
 		} 
 		
+	}
+	
+	public void recovery()
+	{
+		for(int i = 0 ; i < this.teamBench.size(); i ++)
+		{
+			if(this.teamBench.get(i).getCurrentHealth() < this.teamBench.get(i).getMaxHealth())
+			{
+			this.teamBench.get(i).recovery();
+			}
+		}
 	}
 	
 	public void addPlayer(ArrayList<Player> origin, int positionInTeamStarters, Market market)
@@ -133,7 +144,7 @@ public class Team
 		{
 			this.teamStarters.get(i).setCurrentSkillValue(this.teamStarters.get(i).getDefenseSkill());
 		}
-		this.teamStarters.get(10).setCurrentSkillValue(this.teamStarters.get(10).getDefenseSkill());
+		this.teamStarters.get(10).setCurrentSkillValue(this.teamStarters.get(10).getGoalieSkill());
 	}
 	
 	
