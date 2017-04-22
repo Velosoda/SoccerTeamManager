@@ -133,7 +133,7 @@
 							<td><c:out value="${teamStarters.goalieSkill}"/></td>
 							<td><c:out value="${teamStarters.naturalPosition}"/></td>
 							<td><c:out value="${teamStarters.overall}"/></td>
-							<td><c:out value="${teamStarters.health }"/></td>
+							<td><c:out value="${teamStarters.currentHealth }"/></td>
 							<td><c:out value="${teamStarters.injuryRisk}"/></td>
 							<td><c:out value="${teamStarters.cost}"/></td>
 							<td>
@@ -175,7 +175,7 @@
 							<td><c:out value="${teamBench.goalieSkill}"/></td>
 							<td><c:out value="${teamBench.naturalPosition}"/></td>
 							<td><c:out value="${teamBench.overall}"/></td>
-							<td><c:out value="${teamBench.health}"/></td>
+							<td><c:out value="${teamBench.currentHealth}"/></td>
 							<td>
 								<input type="radio" name="selectedPlayerBench" value="${teamBench.name}"/>
 								<input type="hidden" name="positionOfBench" value="${position1.index}"/>

@@ -32,7 +32,7 @@ table, th, td {
 		<tbody>
 			<c:forEach var="levelUpRecord"  items= "${levelUpRecord}" >
 			<tr>
-				<td><c:out value="${levelUpRecord.name}" > </c:out></td>
+				<td><c:out value= "${levelUpRecord.name}" > </c:out></td>
 				<td><c:out value ="${levelUpRecord.currentPosition}"></c:out></td>
 				<td><c:out value ="${levelUpRecord.currentSkillValue - 1}"></c:out></td>
 				<td><c:out value ="${levelUpRecord.currentSkillValue}"></c:out></td>
