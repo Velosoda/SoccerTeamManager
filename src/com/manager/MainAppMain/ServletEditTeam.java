@@ -42,6 +42,7 @@ public class ServletEditTeam extends HttpServlet {
 		String bench = request.getParameter("selectedPlayerBench");
 		String progression = request.getParameter("progression");
 		
+		/*
 		if(progression.equals("Auto Fill Team"))
 		{
 			//checking for size of 11
@@ -126,34 +127,61 @@ public class ServletEditTeam extends HttpServlet {
 			request.getRequestDispatcher("JSP/mainmenu.jsp").forward(request, response);
 			return;
 		}
-		if(progression.equals("Auto Sort Team"))
+		*/
+		if(progression.equals("Add To Starters"))
 		{
-			//auto sort
+			//check to see if team is already at 11 players
+			if(teamStarters.size() == 11)
+			{
+				error = "Your team is already full"; 
+				
+				//store all the values created above to the context
+				STM.setAttribute("market", market);
+				STM.setAttribute("league", league); 
+				STM.setAttribute("ModelLoading", ml);
+				
+				request.setAttribute("error", error);
+				request.setAttribute("teamStarters", teamStarters);
+				request.setAttribute("teamBench", teamBench);
+				request.getRequestDispatcher("JSP/mainmenu.jsp").forward(request, response);
+				return;
+			}
+			else
+			{
+				String playerToAdd = request.getParameter("playerToAdd");
+				System.out.println("player to add " + playerToAdd);
+				for(int i = 0; i < teamBench.size(); i++)
+				{
+					if(teamBench.get(i).getName().equals(playerToAdd))
+					{						
+						teamStarters.add(teamBench.get(i));
+						teamBench.remove(teamBench.get(i));
+					}
+				}
+				//Update current position
+				ml.updateCurrentPosition(teamStarters);
+				
+				//store all the values created above to the context
+				STM.setAttribute("market", market);
+				STM.setAttribute("league", league); 
+				STM.setAttribute("ModelLoading", ml);
+				
+				request.setAttribute("teamStarters", teamStarters);
+				request.setAttribute("teamBench", teamBench);
+				request.getRequestDispatcher("JSP/mainmenu.jsp").forward(request, response);
+				return;
+			}
+		}
+		if(progression.equals("Remove From Starters"))
+		{
+			String playerToRemove = request.getParameter("playerToRemove");
+			System.out.println("player to remove " + playerToRemove);
 			for(int i = 0; i < teamStarters.size(); i++)
 			{
-				if(teamStarters.get(i).getNaturalPosition().equals(Constants.attacker))
+				if(teamStarters.get(i).getName().equals(playerToRemove))
 				{
-					Player temp = teamStarters.get(i);
-					teamStarters.remove(i);
-					teamStarters.add(0, temp);
-				}
-				if(teamStarters.get(i).getNaturalPosition().equals(Constants.midfielder))
-				{
-					Player temp = teamStarters.get(i);
-					teamStarters.remove(i);
-					teamStarters.add(2, temp);
-				}
-				if(teamStarters.get(i).getNaturalPosition().equals(Constants.defender))
-				{
-					Player temp = teamStarters.get(i);
-					teamStarters.remove(i);
-					teamStarters.add(6, temp);
-				}
-				if(teamStarters.get(i).getNaturalPosition().equals(Constants.goalie))
-				{
-					Player temp = teamStarters.get(i);
-					teamStarters.remove(i);
-					teamStarters.add(10, temp);
+					teamBench.add(teamStarters.get(i));
+					teamStarters.remove(teamStarters.get(i));
 				}
 			}
 			//Update current position
@@ -168,6 +196,68 @@ public class ServletEditTeam extends HttpServlet {
 			request.setAttribute("teamBench", teamBench);
 			request.getRequestDispatcher("JSP/mainmenu.jsp").forward(request, response);
 			return;
+		}
+		if(progression.equals("Auto Sort Team"))
+		{
+			//auto sort
+			try
+			{
+				for(int i = 0; i < teamStarters.size(); i++)
+				{
+					if(teamStarters.get(i).getNaturalPosition().equals(Constants.attacker))
+					{
+						Player temp = teamStarters.get(i);
+						teamStarters.remove(i);
+						teamStarters.add(0, temp);
+					}
+					if(teamStarters.get(i).getNaturalPosition().equals(Constants.midfielder))
+					{
+						Player temp = teamStarters.get(i);
+						teamStarters.remove(i);
+						teamStarters.add(2, temp);
+					}
+					if(teamStarters.get(i).getNaturalPosition().equals(Constants.defender))
+					{
+						Player temp = teamStarters.get(i);
+						teamStarters.remove(i);
+						teamStarters.add(6, temp);
+					}
+					if(teamStarters.get(i).getNaturalPosition().equals(Constants.goalie))
+					{
+						Player temp = teamStarters.get(i);
+						teamStarters.remove(i);
+						teamStarters.add(10, temp);
+					}
+				}
+				//Update current position
+				ml.updateCurrentPosition(teamStarters);
+				
+				//store all the values created above to the context
+				STM.setAttribute("market", market);
+				STM.setAttribute("league", league); 
+				STM.setAttribute("ModelLoading", ml);
+				
+				request.setAttribute("teamStarters", teamStarters);
+				request.setAttribute("teamBench", teamBench);
+				request.getRequestDispatcher("JSP/mainmenu.jsp").forward(request, response);
+				return;
+			}
+			catch(Exception e)
+			{
+				ml.updateCurrentPosition(teamStarters);
+				error = "Make sure you fill your team before Auto Sorting";
+				
+				//store all the values created above to the context
+				STM.setAttribute("market", market);
+				STM.setAttribute("league", league); 
+				STM.setAttribute("ModelLoading", ml);
+				
+				request.setAttribute("error", error);
+				request.setAttribute("teamStarters", teamStarters);
+				request.setAttribute("teamBench", teamBench);
+				request.getRequestDispatcher("JSP/mainmenu.jsp").forward(request, response);
+				return;
+			}
 		}
 		if(progression.equals("Swap"))
 		{

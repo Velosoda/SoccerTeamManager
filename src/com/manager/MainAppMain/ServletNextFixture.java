@@ -33,22 +33,47 @@ public class ServletNextFixture extends HttpServlet {
 		
 		Match newMatchDay = new Match();
 		
+		//simplify teamstarters
+		ArrayList<Player> teamStarters = league.allTeams.get(Constants.userTeamId).teamStarters;
+		
 		//set up match day schedule
 		newMatchDay.matchDayMatchups(league);
 		
 		//create leagePoints array
 		int[] leaguePoints = new int[4];
 		
-		//11 players 
-		if(league.allTeams.get(Constants.userTeamId).teamStarters.size() < Constants.teamSize)
+		//health check
+		for(int i = 0; i < teamStarters.size(); i++)
 		{
-			ArrayList<Player> teamStarters = league.allTeams.get(Constants.userTeamId).teamStarters;
+			if(teamStarters.get(i).getCurrentHealth() <= 0)
+			{
+				String error = "You have players in your starters that have 0 health!";
+				
+				ArrayList<Player> teamBench = league.allTeams.get(Constants.userTeamId).teamBench;
+				
+				STM.setAttribute("market", market);
+				STM.setAttribute("league", league); 
+				STM.setAttribute("ModelLoading", ml);
+				
+				request.setAttribute("error", error);
+				request.setAttribute("teamStarters", teamStarters);
+				request.setAttribute("teamBench", teamBench);
+				request.getRequestDispatcher("/JSP/mainmenu.jsp").forward(request, response);
+				return;
+			}
+		}
+		//11 players 
+		if(teamStarters.size() < Constants.teamSize)
+		{
+			String error = "You need 11 Players in your starters to play the next match!";
+			
 			ArrayList<Player> teamBench = league.allTeams.get(Constants.userTeamId).teamBench;
 			
 			STM.setAttribute("market", market);
 			STM.setAttribute("league", league); 
 			STM.setAttribute("ModelLoading", ml);
 			
+			request.setAttribute("error", error);
 			request.setAttribute("teamStarters", teamStarters);
 			request.setAttribute("teamBench", teamBench);
 			request.getRequestDispatcher("/JSP/mainmenu.jsp").forward(request, response);
