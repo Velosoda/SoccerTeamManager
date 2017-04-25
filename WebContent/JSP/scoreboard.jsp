@@ -23,7 +23,7 @@ table, th, td {
 		<th>Team 1</th>
 		<th>Team 2</th>
 		<th>Team 3</th>
-		<th>Team 4</th>
+		<th>Your Team</th>
 	</tr>
 </thead>
 <tbody>

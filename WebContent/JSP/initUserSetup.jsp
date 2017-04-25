@@ -3,36 +3,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
+		<link rel="stylesheet" href="stylesheet.css" type="text/css"/>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<title>Make User Team</title>
-      <style type="text/css">
-		#selectedItems
-		{
-		  float: right;
-		  padding: 1px;
-		  width:39%;
-		}
-		#marketTable
-		{
-		  float: left;
-		  width: 60%;
-		}
-		table {
-		    font-family: arial, sans-serif;
-		    border-collapse: collapse;
-		}
-		
-		td, th {
-		    border: 1px solid #dddddd;
-		    text-align: left;
-		}
-		</style>
 	</head>
 	<body>
 		<p>The size of the market is ${marketSize}</p>
 		<p>Please Select 2 Attackers, 4 Midfielders, 4 Defenders, and 1 Goalie</p>
 		<p>${error}</p>
-		<table id="marketTable">
+		<div class = "datagrid" style ="float:left; width: 50%;">
+		<table>
 		<caption>Market</caption>
 			<thead>
 				<tr>
@@ -51,7 +31,7 @@
 			</thead>
 			<tbody>
 				<c:forEach var="totalMarket"  items= "${totalMarket}">
-					<tr>
+					<tr class = "alt">
 						<td><c:out value="${totalMarket.name}"></c:out>
 						<td><c:out value="${totalMarket.age}"/></td>
 						<td><c:out value="${totalMarket.ageGroup}"/></td>
@@ -73,7 +53,9 @@
 				</c:forEach>
 			</tbody>
 		</table>
-		<table id = "selectedItems">
+		</div>
+		<div  class = "datagrid" style ="float:right; width: 49%;">
+		<table>
 		<caption>Selected Items</caption>
 			<thead>
 				<tr>
@@ -86,7 +68,7 @@
 			</thead>
 			<tbody>
 				<c:forEach var="selectedPFM"  items= "${selectedPFM}">
-					<tr>
+					<tr class = "alt">
 						<td><c:out value="${selectedPFM.name}"></c:out>
 						<td><c:out value="${selectedPFM.naturalPosition}"/></td>
 						<td><c:out value="${selectedPFM.overall}"/></td>
@@ -111,5 +93,7 @@
 		<p>Total = ${totalCost}</p> <!-- total cost of this (^) selection -->
 		<p>Your Budget = ${budget}</p>
 		<p>Budget After Purchase = ${budgetIfPurchase}</p> <!-- What will the budget be after purchase -->
+		<!-- </div> -->
+		</div>
 	</body>
 </html>
