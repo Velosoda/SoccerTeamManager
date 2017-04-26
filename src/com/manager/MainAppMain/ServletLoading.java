@@ -77,7 +77,7 @@ public class ServletLoading extends HttpServlet
 		}
 		else
 		{
-			request.getRequestDispatcher("/JSP/initUserSetup.jsp").forward(request, response);
+			request.getRequestDispatcher("/JSP/splashmainmenu.jsp").forward(request, response);
 			return;
 		}
 	}

@@ -1,6 +1,8 @@
 package com.manager.MainAppMain;
 
 import java.io.IOException;
+
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,12 +27,27 @@ public class ServletInitUserSetup extends HttpServlet
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		//load in all context vars
+		ServletContext STM = getServletConfig().getServletContext();
 		Market market = (Market)getServletContext().getAttribute("market");
 		League league = (League)getServletContext().getAttribute("league");
 		ModelLoading ml = (ModelLoading) getServletContext().getAttribute("ModelLoading");
 		
-		//get values from response
+		Team userTeam = league.allTeams.get(Constants.userTeamId);
 		
+		STM.setAttribute("market", market);
+		STM.setAttribute("league", league); 
+		STM.setAttribute("ModelLoading", ml);
+		
+		//send market to request
+		request.setAttribute("totalMarket", ml.totalMarket);
+		request.setAttribute("marketSize", ml.totalMarket.size());
+		request.setAttribute("teamStarters", league.allTeams.get(Constants.userTeamId).teamStarters);
+		
+		//budget 
+		request.setAttribute("budget", Constants.format.format(userTeam.getBudget()));
+		request.setAttribute("totalCostOfPurchase", Constants.format.format(userTeam.getCostOfPFM()));
+		request.setAttribute("budgetIfPurchased", Constants.format.format(userTeam.getBudget() - userTeam.getCostOfPFM()));
+		request.getRequestDispatcher("/JSP/initUserSetup.jsp").forward(request, response);
 	}
 
 }

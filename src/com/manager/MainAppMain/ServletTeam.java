@@ -28,6 +28,8 @@ public class ServletTeam extends HttpServlet {
 			Integer bipass = Integer.parseInt(request.getParameter("bipass"));
 			League league = (League) getServletContext().getAttribute("league");
 			Team selectedTeam = league.allTeams.get(bipass);
+			String linkBack = "<a class=\"clickMe\"href=\"Team\"> Go Back  </a>";
+			request.setAttribute("linkBack", linkBack);
 			request.setAttribute("selectedTeamStarters", selectedTeam.teamStarters);
 			request.setAttribute("selectedTeamBench", selectedTeam.teamBench);
 			request.setAttribute("bipass", bipass);

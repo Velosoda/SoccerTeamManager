@@ -198,8 +198,13 @@ public class SerlvetInitAddPlayersToTeam extends HttpServlet
 		STM.setAttribute("league", league);
 		STM.setAttribute("ModelLoading", ml);
 		
+		ArrayList<Player> teamStarters = league.allTeams.get(Constants.userTeamId).teamStarters;
+		ArrayList<Player> teamBench = league.allTeams.get(Constants.userTeamId).teamBench;
+		
 		//send array to test page
 		request.setAttribute("userTeam", userTeam.teamStarters);
+		request.setAttribute("teamStarters", teamStarters);
+		request.setAttribute("teamBench", teamBench);
 		
 		request.getRequestDispatcher("/JSP/mainmenu.jsp").forward(request, response);
 	}
