@@ -4,6 +4,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<link rel="stylesheet" href="stylesheet.css" type="text/css"/>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>View Teams</title>
 </head>
@@ -21,7 +22,7 @@
 					<td>
 						<form action="Team" method = "Post">
 							<input type = "hidden" name = "bipass" value = "${allTeams.id}"> 
-							<input type = "submit" value = "view">
+							<input class = "clickMe" type = "submit" value = "view">
 						</form>
 					</td>
 				</tr>
@@ -29,7 +30,8 @@
 		</tbody>
 	</table>
 	<p>Team ${bipass}<p>
-		<table border = "1px">
+	<div class = "datagrid" style =" width: 49%;">
+	<table>
 		<thead>
 			<tr>
 				<th>Name</th>
@@ -60,39 +62,43 @@
 				</tr>
 			</c:forEach>
 		</tbody>
-	</table border = "1px">
-	<p>Team ${bipass} Bench</p>
-	<table>
-		<thead>
-			<tr>
-				<th>Name</th>
-				<th>Age</th>
-				<th>AgeGroup</th>
-				<th>Attack</th>
-				<th>Midfield</th>
-				<th>Defense</th>
-				<th>Goalie</th>
-				<th>Position</th>
-				<th>Overall</th>
-				<th>Cost</th>
-			<tr>
-		</thead>
-		<tbody>
-			<c:forEach var="stb"  items= "${selectedTeamBench}">
-				<tr>
-					<td><c:out value="${stb.name}"></c:out>
-					<td><c:out value="${stb.age}"/></td>
-					<td><c:out value="${stb.ageGroup}"/></td>
-					<td><c:out value="${stb.attackSkill}"/></td>
-					<td><c:out value="${stb.midfieldSkill}"/></td>
-					<td><c:out value="${stb.defenseSkill}"/></td>
-					<td><c:out value="${stb.goalieSkill}"/></td>
-					<td><c:out value="${stb.naturalPosition}"/></td>
-					<td><c:out value="${stb.overall}"/></td>
-					<td><c:out value="${stb.cost}"/></td>
-				</tr>
-			</c:forEach>
-		</tbody>
 	</table>
+	</div>
+	<p>Team ${bipass} Bench</p>
+	<div class = "datagrid" style ="width: 49%;">
+		<table>
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Age</th>
+					<th>AgeGroup</th>
+					<th>Attack</th>
+					<th>Midfield</th>
+					<th>Defense</th>
+					<th>Goalie</th>
+					<th>Position</th>
+					<th>Overall</th>
+					<th>Cost</th>
+				<tr>
+			</thead>
+			<tbody>
+				<c:forEach var="stb"  items= "${selectedTeamBench}">
+					<tr>
+						<td><c:out value="${stb.name}"></c:out>
+						<td><c:out value="${stb.age}"/></td>
+						<td><c:out value="${stb.ageGroup}"/></td>
+						<td><c:out value="${stb.attackSkill}"/></td>
+						<td><c:out value="${stb.midfieldSkill}"/></td>
+						<td><c:out value="${stb.defenseSkill}"/></td>
+						<td><c:out value="${stb.goalieSkill}"/></td>
+						<td><c:out value="${stb.naturalPosition}"/></td>
+						<td><c:out value="${stb.overall}"/></td>
+						<td><c:out value="${stb.cost}"/></td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+	</div>
+	<p>${linkBack } <a class="clickMe" href="MainMenu"> Back To Main Menu</a></p>
 </body>
 </html>

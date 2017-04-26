@@ -5,29 +5,80 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<link rel="stylesheet" href="stylesheet.css" type="text/css"/>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>View Fixture</title>
 </head>
 <body>
-	<table border= "1">
-		<thead>
-			<tr>
-				<th>team 1</th>
-				<th>team 2</th>
-				<th>team 3</th>
-				<th>Your Team</th>
-			<tr>
-		</thead>
-		<tbody>
-			<c:forEach begin="0" end="${fn:length(team0Matches) - 1}" var="index">
-   				<tr>
-      				<td><c:out value="${team0Matches[index] + 1}"/></td>
-      				<td><c:out value="${team1Matches[index] + 1}"/><td>
-      				<td><c:out value="${team2Matches[index] + 1}"/><td>
-      				<td><c:out value="${team3Matches[index] + 1}"/><td>
-   				</tr>
-			</c:forEach>
-		</tbody>
-	</table>
+	<div class = "datagrid" style ="float:left; width: 24%;">
+	<table>
+		<caption>Team 1</caption>
+			<thead>
+				<tr>
+					<th>Teams To Verse at Home</th>
+				<tr>
+			</thead>
+			<tbody>
+				<c:forEach var="team0Matches"  items= "${team0Matches}">
+					<tr>
+						<td><c:out value="${team0Matches + 1}"></c:out>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+	</div>
+	<div class = "datagrid" style ="float:left; width: 24%;">
+	<table>
+		<caption>Team 2</caption>
+			<thead>
+				<tr>
+					<th>Teams To Verse at Home</th>
+				<tr>
+			</thead>
+			<tbody>
+				<c:forEach var="team1Matches"  items= "${team1Matches}">
+					<tr>
+						<td><c:out value="${team1Matches + 1}"></c:out>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+	</div>
+	<div class = "datagrid" style ="float:left; width: 24%;">
+	<table>
+		<caption>Team 3</caption>
+			<thead>
+				<tr>
+					<th>Teams Left To Verse at Home</th>
+				<tr>
+			</thead>
+			<tbody>
+				<c:forEach var="team2Matches"  items= "${team2Matches}">
+					<tr>
+						<td><c:out value="${team2Matches + 1}"></c:out>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+	</div>
+	<div class = "datagrid" style ="float:left; width: 24%;">
+	<table>
+		<caption>Your Team</caption>
+			<thead>
+				<tr>
+					<th>Teams To Verse at Home</th>
+				<tr>
+			</thead>
+			<tbody>
+				<c:forEach var="team3Matches"  items= "${team3Matches}">
+					<tr>
+						<td><c:out value="${team3Matches + 1}"></c:out>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+	</div>
+	<br>
+	<a class="clickMe" href="MainMenu" style="float:left;"> Back To Main Menu</a>
 </body>
 </html>

@@ -9,6 +9,7 @@
 <title>Soccer Manager Game</title>
 </head>
 	<body>
+	<br>
 	  <div class="mainmenu">
 		<a class="clickMe" href="Market"> Market </a>
 	 	<a class="clickMe" href="Team"> View Teams </a>
